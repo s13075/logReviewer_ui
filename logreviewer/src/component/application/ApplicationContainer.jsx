@@ -1,14 +1,19 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import ApplicationFilter from './ApplicationFilter';
-import styles from './ApplicationStyles';
+
 
 const ApplicationContainer = () => {
-    const classes = styles();
-    return(
-        <Box className={classes.applicationContainer}>
+    return (
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'row'
+        }}>
             <ApplicationFilter />
-            <Box className={classes.applicationList}>
+            <Box sx={{
+                width: '80%'
+            }}>
                 Display all applications.
             </Box>
 

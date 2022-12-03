@@ -1,13 +1,16 @@
 import React from 'react';
-import {Box, Paper} from '@mui/material';
-import styles from './ApplicationStyles';
+import { Box, Paper } from '@mui/material';
 
 const ApplicationFilter = () => {
-    const classes = styles();
-    
-    return(
-        <Box className={classes.applicationFilter}>
-            <Paper className={classes.applicationFilterPaper}>
+    return (
+        <Box sx={{
+            width: '20%',
+            height: '500px'
+        }}>
+            <Paper sx={{
+                width: '100%',
+                height: '100%'
+            }}>
                 Application filter.
             </Paper>
         </Box>
