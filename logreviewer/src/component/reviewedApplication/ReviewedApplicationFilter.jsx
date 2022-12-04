@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Paper } from '@mui/material';
 
-const ApplicationFilter = () => {
+const ReviewedApplicationFilter = () => {
     return (
         <Box sx={{
             width: '20%',
@@ -11,11 +11,11 @@ const ApplicationFilter = () => {
                 width: '100%',
                 height: '100%'
             }}>
-                Application filter.
+                Reviewed Application filter.
             </Paper>
         </Box>
 
     );
 }
 
-export default ApplicationFilter;
+export default ReviewedApplicationFilter;
