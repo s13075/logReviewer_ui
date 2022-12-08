@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getReviewedApplicationAction from '../../module/reviewedApplication/reviewedApplicationAction';
 import {getReviewedApplicationsSelector} from '../../module/reviewedApplication/reviewedApplicationSelector';
 import ReviewedApplicationFilter from './ReviewedApplicationFilter';
+import ReviewedApplicationList from './ReviewedApplicationList';
 
 
 const ReviewedApplicationContainer = () => {
@@ -26,7 +27,7 @@ const ReviewedApplicationContainer = () => {
             <Box sx={{
                 width: '80%'
             }}>
-                Display all reviewed applications.
+                <ReviewedApplicationList reviewedApplications = {reviewedApplications} />
             </Box>
 
         </Box>

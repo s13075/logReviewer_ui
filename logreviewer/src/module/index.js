@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import reviewedApplicationReducer from './reviewedApplication/reveiwedApplicationReducer';
+import reviewedApplicationReducer from './reviewedApplication/reviewedApplicationReducer';
 
 export default combineReducers({
     reviewedApplicationReducer
-})
+});

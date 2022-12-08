@@ -1,4 +1,4 @@
-const INITIAL_REVIEWED_APPLICATIONS_REDUCER_STATE = {
+export const INITIAL_REVIEWED_APPLICATIONS_REDUCER_STATE = {
     reviewedApplications: []
 }
 
