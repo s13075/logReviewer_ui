@@ -1,6 +1,7 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import { Box } from "@mui/material";
+import ReviewedApplicationListItem from './ReviewedApplicationListItem'
 
 const propTypes = {
     reviewedApplications: Proptypes.arrayOf({
@@ -17,11 +18,13 @@ const propTypes = {
 
 const ReviewedApplicationList = ({reviewedApplications}) => {
     return(
-        <Box sx={{
-            width: '80%'
-        }}>
+        <Box
+            ml = {2}
+            sx={{
+                width: '80%'
+            }}>
             {reviewedApplications.map((reviewedApplication) => (
-            <div key={reviewedApplication.id}>{reviewedApplication.id}</div>
+                <ReviewedApplicationListItem reviewedApplication={reviewedApplication} key={reviewedApplication.id} />       
             ))}
         </Box>
     );
