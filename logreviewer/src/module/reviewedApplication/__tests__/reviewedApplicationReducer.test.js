@@ -13,7 +13,8 @@ describe('reviewedApplicationReducer', () => {
                 financialOperation: true,
                 supportContactGroup: 'supportGroup@BankingApplication.com',
                 smeEmployee: 'Pracownik_SME1'
-            }]
+            }],
+
         }
 
         const newState = reviewedApplicationReducer(INITIAL_REVIEWED_APPLICATIONS_REDUCER_STATE, action);
@@ -28,7 +29,12 @@ describe('reviewedApplicationReducer', () => {
                 financialOperation: true,
                 supportContactGroup: 'supportGroup@BankingApplication.com',
                 smeEmployee: 'Pracownik_SME1'
-            }]
+            }],
+            promise:{
+                isPending: false,
+                isFulfilled: false,
+                isErrorOcurred: false
+            }
         })
     })
 })

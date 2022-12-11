@@ -36,8 +36,8 @@ describe('ReviewedApplicationAction', () => {
         await store.dispatch(getReviewedApplicationAction());
 
         const actions = store.getActions();
-        expect(actions.length).toEqual(1);
-        expect(actions[0]).toEqual({
+        expect(actions.length).toEqual(3);
+        expect(actions[1]).toEqual({
             type: 'REVEIWEDAPPLICATIONSLIST',
             payload: [{
                 id: '123e4567-e89b-42d3-a456-556642440001',

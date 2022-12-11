@@ -1,20 +1,22 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import getReviewedApplicationAction from '../../module/reviewedApplication/reviewedApplicationAction';
-import {getReviewedApplicationsSelector} from '../../module/reviewedApplication/reviewedApplicationSelector';
+import { getReviewedApplicationsSelector, getReviewedApplicationsPromiseSelector } from '../../module/reviewedApplication/reviewedApplicationSelector';
 import ReviewedApplicationFilter from './ReviewedApplicationFilter';
 import ReviewedApplicationList from './ReviewedApplicationList';
 
 
 const ReviewedApplicationContainer = () => {
     const dispatch = useDispatch();
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
         dispatch(getReviewedApplicationAction());
-    },[dispatch])
+    }, [dispatch])
     const reviewedApplications = useSelector(getReviewedApplicationsSelector);
+    const reviewedApplicationsPromise = useSelector(getReviewedApplicationsPromiseSelector);
     console.log(reviewedApplications);
 
     return (
@@ -27,7 +29,26 @@ const ReviewedApplicationContainer = () => {
             <Box sx={{
                 width: '80%'
             }}>
-                <ReviewedApplicationList reviewedApplications = {reviewedApplications} />
+                {reviewedApplicationsPromise.isPending && (
+                    <Box ml={2}>
+                        <Skeleton
+                            variant="react"
+                            animation="pulse"
+                            width="80%"
+                            height="200px"
+                        />
+                    </Box>
+                )}
+                {reviewedApplicationsPromise.isErrorOcurred && (
+                    <div>
+                        Error message...
+                    </div>
+                )}
+                {
+                    reviewedApplicationsPromise.isFulfilled &&
+                    <ReviewedApplicationList reviewedApplications={reviewedApplications} />
+                }
+
             </Box>
 
         </Box>
