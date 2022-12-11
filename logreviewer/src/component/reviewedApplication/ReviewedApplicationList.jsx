@@ -1,30 +1,32 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Box } from "@mui/material";
 import ReviewedApplicationListItem from './ReviewedApplicationListItem'
 
 const propTypes = {
-    reviewedApplications: Proptypes.arrayOf({
-        id: Proptypes.string.isRequired,
-        name: Proptypes.string.isRequired,
-        inventoryNo: Proptypes.number.isRequired,
-        piiData: Proptypes.bool.isRequired,
-        criticalFunction: Proptypes.bool.isRequired,
-        financialOperation: Proptypes.bool.isRequired,
-        supportContactGroup: Proptypes.string.isRequired,
-        smeEmployee: Proptypes.string.isRequired,
-    }).isRequired,
+    reviewedApplications: PropTypes.arrayOf(
+        PropTypes.shape(({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            inventoryNo: PropTypes.string.isRequired,
+            piiData: PropTypes.bool.isRequired,
+            criticalFunction: PropTypes.bool.isRequired,
+            financialOperation: PropTypes.bool.isRequired,
+            supportContactGroup: PropTypes.string.isRequired,
+            smeEmployee: PropTypes.string.isRequired,
+        }).isRequired,
+        )).isRequired,
 };
 
-const ReviewedApplicationList = ({reviewedApplications}) => {
-    return(
+const ReviewedApplicationList = ({ reviewedApplications }) => {
+    return (
         <Box
-            ml = {2}
+            ml={2}
             sx={{
                 width: '80%'
             }}>
             {reviewedApplications.map((reviewedApplication) => (
-                <ReviewedApplicationListItem reviewedApplication={reviewedApplication} key={reviewedApplication.id} />       
+                <ReviewedApplicationListItem reviewedApplication={reviewedApplication} key={reviewedApplication.id} />
             ))}
         </Box>
     );

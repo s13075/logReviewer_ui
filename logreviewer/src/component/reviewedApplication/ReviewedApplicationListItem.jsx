@@ -7,7 +7,7 @@ const propTypes = {
     reviewedApplication: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        inventoryNo: PropTypes.number.isRequired,
+        inventoryNo: PropTypes.string.isRequired,
         piiData: PropTypes.bool.isRequired,
         criticalFunction: PropTypes.bool.isRequired,
         financialOperation: PropTypes.bool.isRequired,
@@ -37,11 +37,12 @@ const ReviewedApplicationListItem = ({ reviewedApplication }) => {
                 <Box
                     ml ={1}
                     >
-                    <Typography variant="h5">{reviewedApplication.name}</Typography>
+                    <Typography>{reviewedApplication.name}</Typography>
+                    <Typography>{reviewedApplication.id}</Typography>
                     <Typography>{reviewedApplication.inventoryNo}</Typography>
-                    <Typography>{reviewedApplication.piiData}</Typography>
+                    {/*<Typography>{reviewedApplication.piiData}</Typography>
                     <Typography>{reviewedApplication.criticalFunction}</Typography>
-                    <Typography>{reviewedApplication.financialOperation}</Typography>
+                    <Typography>{reviewedApplication.financialOperation}</Typography>*/}
                     <Typography>{reviewedApplication.supportContactGroup}</Typography>
                     <Typography>{reviewedApplication.smeEmployee}</Typography>
                 </Box>

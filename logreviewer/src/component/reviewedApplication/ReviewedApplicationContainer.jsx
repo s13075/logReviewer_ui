@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { Skeleton } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import getReviewedApplicationAction from '../../module/reviewedApplication/reviewedApplicationAction';
+import { getReviewedApplicationAction } from '../../module/reviewedApplication/reviewedApplicationAction';
 import { getReviewedApplicationsSelector, getReviewedApplicationsPromiseSelector } from '../../module/reviewedApplication/reviewedApplicationSelector';
 import ReviewedApplicationFilter from './ReviewedApplicationFilter';
 import ReviewedApplicationList from './ReviewedApplicationList';
@@ -17,7 +17,7 @@ const ReviewedApplicationContainer = () => {
     }, [dispatch])
     const reviewedApplications = useSelector(getReviewedApplicationsSelector);
     const reviewedApplicationsPromise = useSelector(getReviewedApplicationsPromiseSelector);
-    console.log(reviewedApplications);
+
 
     return (
         <Box sx={{

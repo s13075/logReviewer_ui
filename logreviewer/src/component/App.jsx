@@ -18,7 +18,7 @@ function App() {
 
   return (
     <Layout>
-      <ReviewedApplicationContainer />
+      <ReviewedApplicationContainer/>
     </Layout>
 
   );

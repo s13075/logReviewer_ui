@@ -13,7 +13,14 @@ const reviewedApplicationReducer = (state = INITIAL_REVIEWED_APPLICATIONS_REDUCE
         case 'REVEIWEDAPPLICATIONSLIST' :{
             return {
                 ...state,
-                reviewedApplications: action.payload
+                reviewedApplications: action.payload,
+            }
+        }
+        case 'REVEIWEDAPPLICATIONSBYNAMELIST':{
+            return {
+                ...state,
+                reviewedApplications: action.payload,
+
             }
         }
         case 'REVEIWEDAPPLICATIONSLISTPENDING':{
@@ -37,7 +44,6 @@ const reviewedApplicationReducer = (state = INITIAL_REVIEWED_APPLICATIONS_REDUCE
 
             }
         }
-
         default: {
             return state;
         }
