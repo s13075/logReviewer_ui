@@ -9,19 +9,28 @@ import '@fontsource/roboto/700.css';
 import Layout from './layout/Layout';
 import Login from './user/Login';
 import ReviewedApplicationContainer from './reviewedApplication/ReviewedApplicationContainer';
+import { SnackbarProvider } from 'notistack';
+import Auth from './Auth';
+import { getUserTokenSelector } from '../module/user/userSelector';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const token = useSelector(getUserTokenSelector);
 
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route exact path='/login' element ={<Login/>}/>           
-          <Route exact path='/' element ={<ReviewedApplicationContainer/>}/>
-        </Routes>
-      </Layout>
-    </Router>
-
+    <SnackbarProvider maxSnack={3}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route exact path='/login' element={<Login />} />
+            <Route element={<Auth token={token} />}>
+              <Route exact path='/' element={<ReviewedApplicationContainer />} />
+            </Route>
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
+          </Routes>
+        </Layout>
+      </Router>
+    </SnackbarProvider>
   );
 }
 

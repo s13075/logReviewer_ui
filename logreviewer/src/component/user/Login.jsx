@@ -1,9 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Paper, Typography, TextField, Button } from '@mui/material';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from '../../module/user/userAction';
+import { getUserPromiseSelector} from '../../module/user/userSelector';
+import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
+
+const validationSchema = yup.object({
+    email: yup
+        .string('Enter your email')
+        .email('Enter a valid email')
+        .required('Email is required'),
+    password: yup
+        .string('Enter your password')
+        .min(8, 'Password should have minimum 8 characters')
+        .required('Password is required'),
+});
 
 const Login = () => {
+    const dispatch = useDispatch();
+    const userPromise = useSelector(getUserPromiseSelector);
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userPromise.isErrorOcurred) {
+            enqueueSnackbar('Incorrect email or password. Login failed!',{
+                variant:'error'
+            });
+        } else if (userPromise.isFulfilled) {
+            enqueueSnackbar('Login success!',{
+                variant:'success'
+            });
+            navigate('/');
+        }
+    }, [userPromise,enqueueSnackbar,navigate])
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            dispatch(loginAction(values.email, values.password))
+        }
+    });
+
     return (
-        <form autoComplete="off" noValidate>
+        <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
             <Box
                 sx={{
                     display: 'flex',
@@ -23,9 +70,13 @@ const Login = () => {
                     <TextField
                         name='email'
                         id='email'
-                        label='enter email adress'
+                        label='Enter email adress'
                         variant='outlined'
-                        placeholder='enter email adress'
+                        placeholder='Enter email adress'
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        helperText={formik.touched.email && formik.errors.email}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
                         sx={{
                             marginTop: '2rem'
                         }}
@@ -33,9 +84,13 @@ const Login = () => {
                     <TextField
                         name='password'
                         id='password'
-                        label='enter password'
+                        label='Enter password'
                         variant='outlined'
-                        placeholder='enter password'
+                        placeholder='Enter password'
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        helperText={formik.touched.password && formik.errors.password}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
                         sx={{
                             marginTop: '2rem'
                         }}
@@ -44,6 +99,7 @@ const Login = () => {
                         type='submit'
                         variant='contained'
                         color='primary'
+                        disabled = {userPromise.isPending}
                         sx={{
                             marginTop: '2rem'
                         }}
