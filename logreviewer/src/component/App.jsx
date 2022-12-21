@@ -8,6 +8,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Layout from './layout/Layout';
 import Login from './user/Login';
+import Register from './user/Register';
 import ReviewedApplicationContainer from './reviewedApplication/ReviewedApplicationContainer';
 import { SnackbarProvider } from 'notistack';
 import Auth from './Auth';
@@ -23,6 +24,7 @@ function App() {
         <Layout>
           <Routes>
             <Route exact path='/login' element={<Login />} />
+            <Route exact path='/register' element={<Register />} />
             <Route element={<Auth token={token} />}>
               <Route exact path='/' element={<ReviewedApplicationContainer />} />
             </Route>

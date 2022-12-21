@@ -15,7 +15,7 @@ const validationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(8, 'Password should have minimum 8 characters')
+        .min(7, 'Password should have minimum 7 characters')
         .required('Password is required'),
 });
 

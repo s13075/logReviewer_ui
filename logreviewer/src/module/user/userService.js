@@ -7,3 +7,8 @@ axios.post(`http://localhost:8080/api/v1/login`,{
     password
 });
 
+export const register = (user) => 
+axios.post(`http://localhost:8080/api/v1/register`,{
+    user
+});
+
