@@ -1,6 +1,9 @@
 import { login, register } from "./userService";
+import { useDispatch} from 'react-redux';
+
 
 export const loginAction = (email, password) => async (dispatch) => {
+     
     try {
         dispatch({type: 'USER_LOGIN_PENDING'});
         const response = await login(email, password);
@@ -9,7 +12,9 @@ export const loginAction = (email, password) => async (dispatch) => {
             type: 'USER_LOGIN',
             payload: response.data,
         });
+        
         dispatch({type: 'USER_LOGIN_FULFILLED'});
+        dispatch({type: 'SHOW_MENU_OPTIONS'})
     } catch (error) {
         console.log(error);
         dispatch({ type: 'USER_LOGIN_ERROR' });

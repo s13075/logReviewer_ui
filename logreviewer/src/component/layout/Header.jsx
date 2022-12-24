@@ -11,24 +11,18 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom'
+import { getUserTokenSelector } from '../../module/user/userSelector';
+import { getMenuOptions, getMenuOptionsPromise } from '../../module/menuOptions/menuOptionsSelector';
+import { useSelector } from 'react-redux';
+import MenuButtons from './MenuButtons';
 
-
-const pages = [
-    {
-        name: "Review",
-        path: '/review'
-    }, {
-        name: 'Justification',
-        path: '/justification'
-    }, {
-        name: 'User Management',
-        path: '/userManagement'
-    }
-];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 const Header = () => {
+
+    const menuOptions = useSelector(getMenuOptions);
+    const menuOptionsavailibility = useSelector(getMenuOptionsPromise);
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -70,45 +64,56 @@ const Header = () => {
                     >
                         LOGO
                     </Typography>
+                    {menuOptionsavailibility.isAvailible && (
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <Link to={page.path}>
-                                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page.name}</Typography>
-                                    </MenuItem>
-                                </Link>
-                            ))}
-                        </Menu>
-                    </Box>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {
+                                    menuOptions.map((menuOption) => (
+                                        <Link key={menuOption.name} to={menuOption.path}>
+                                            <MenuItem key={menuOption.name} onClick={handleCloseNavMenu}>
+                                                <Typography textAlign="center">{menuOption.name}</Typography>
+                                            </MenuItem>
+                                        </Link>
+                                    ))
+                                }
+                            </Menu>
+
+                        </Box>
+                    )}
+                    {
+                        menuOptionsavailibility.isHidden && (
+                            <div></div>
+                        )
+                    }
                     <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
@@ -128,20 +133,27 @@ const Header = () => {
                     >
                         LOGO
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Link to={page.path}>
-                                <Button
-                                    key={page.name}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page.name}
-                                </Button>
-                            </Link>
-                        ))}
-                    </Box>
-
+                    {menuOptionsavailibility.isAvailible && (
+                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                            {menuOptions.map((menuOptions) => (
+                                <Link key={menuOptions.name} to={menuOptions.path}>
+                                    <Button
+                                        key={menuOptions.name}
+                                        onClick={handleCloseNavMenu}
+                                        sx={{ my: 2, color: 'white', display: 'block' }}
+                                    >
+                                        {menuOptions.name}
+                                    </Button>
+                                </Link>
+                            ))}
+                        </Box>
+                    )}
+                    {
+                        menuOptionsavailibility.isHidden && (
+                            <div></div>
+                        )
+                    }
+                    {menuOptionsavailibility.isAvailible && (
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -171,6 +183,12 @@ const Header = () => {
                             ))}
                         </Menu>
                     </Box>
+                    )}
+                    {
+                        menuOptionsavailibility.isHidden && (
+                            <div></div>
+                        )
+                    }
                 </Toolbar>
             </Container>
         </AppBar>

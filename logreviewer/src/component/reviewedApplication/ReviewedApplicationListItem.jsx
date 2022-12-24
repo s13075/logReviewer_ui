@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Paper, Avatar, Typography } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
+
 
 const propTypes = {
     reviewedApplication: PropTypes.shape({
@@ -17,8 +19,9 @@ const propTypes = {
 };
 
 const ReviewedApplicationListItem = ({ reviewedApplication }) => {
+    const navigate = useNavigate();
     return (
-        <Box mb={2}>
+        <Box mb={2} onClick={() => navigate('/reviewChanges')}>
             <Paper 
                 elevation = {2}
                 sx={{
@@ -31,11 +34,14 @@ const ReviewedApplicationListItem = ({ reviewedApplication }) => {
                     sx={{
                         width: '180px',
                         height: '200px'
-                    }}>
+                    }}
+                    onClick={() => navigate('/reviewChanges')}
+                    >
                 {reviewedApplication.name}
                 </Avatar>
                 <Box
                     ml ={1}
+                    onClick={() => navigate('/reviewChanges')}
                     >
                     <Typography>{reviewedApplication.name}</Typography>
                     <Typography>{reviewedApplication.id}</Typography>

@@ -1,5 +1,6 @@
 export const USER_INITIAL_STATE = {
-    token: window.localStorage.getItem('logreviewer-token'),
+    token: null,
+    //window.localStorage.getItem('logreviewer-token'),
     promise:{
         isPending: false,
         isFulfilled: false,

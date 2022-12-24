@@ -7,21 +7,9 @@ import './index.css';
 import App from './component/App';
 import reportWebVitals from './reportWebVitals';
 import reducers from './module';
-import axios from 'axios';
+
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
-axios.interceptors.request.use(
-  config => {
-    const token = window.localStorage.getItem('logreviewer-token');
-    if(token !=null){
-      config.headers.Authorization = token;
-    }
-    return config;
-  },
-  error => {
-    return Promise.reject(error)
-  }
-)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
