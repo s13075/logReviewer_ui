@@ -1,23 +1,20 @@
 import React, { useEffect } from 'react';
 import { Box, Paper, Typography, TextField, Button } from '@mui/material';
-import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../module/user/userAction';
 import { getUserPromiseSelector} from '../../module/user/userSelector';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
-
-const validationSchema = yup.object({
-    email: yup
-        .string('Enter your email')
-        .email('Enter a valid email')
-        .required('Email is required'),
-    password: yup
-        .string('Enter your password')
-        .min(7, 'Password should have minimum 7 characters')
-        .required('Password is required'),
-});
+import { validationSchema } from '../../config/validation';
+import { 
+    LOGIN_FAILED_SNACKBAR,
+    LOGIN_SUCCESS_SNACKBAR,
+    ENTER_EMAIL_ADRESS,
+    ENTER_PASSWORD,
+    LOGIN,
+    LOGIN_PAGE
+ } from '../../config/names_PL';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -27,11 +24,11 @@ const Login = () => {
 
     useEffect(() => {
         if (userPromise.isErrorOcurred) {
-            enqueueSnackbar('Incorrect email or password. Login failed!',{
+            enqueueSnackbar(LOGIN_FAILED_SNACKBAR,{
                 variant:'error'
             });
         } else if (userPromise.isFulfilled) {
-            enqueueSnackbar('Login success!',{
+            enqueueSnackbar(LOGIN_SUCCESS_SNACKBAR,{
                 variant:'success'
             });
             navigate('/review');
@@ -65,14 +62,14 @@ const Login = () => {
                     }}
                 >
                     <Typography variant='h4'>
-                        Login Page
+                        {LOGIN_PAGE}
                     </Typography>
                     <TextField
                         name='email'
                         id='email'
-                        label='Enter email adress'
+                        label= {ENTER_EMAIL_ADRESS}
                         variant='outlined'
-                        placeholder='Enter email adress'
+                        placeholder= {ENTER_EMAIL_ADRESS}
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         helperText={formik.touched.email && formik.errors.email}
@@ -84,9 +81,9 @@ const Login = () => {
                     <TextField
                         name='password'
                         id='password'
-                        label='Enter password'
+                        label= {ENTER_PASSWORD}
                         variant='outlined'
-                        placeholder='Enter password'
+                        placeholder= {ENTER_PASSWORD}
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         helperText={formik.touched.password && formik.errors.password}
@@ -104,7 +101,7 @@ const Login = () => {
                             marginTop: '2rem'
                         }}
                     >
-                        Login
+                        {LOGIN}
                     </Button>
                 </Paper>
             </Box>

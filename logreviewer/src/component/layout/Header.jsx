@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppBar, Toolbar, Typography } from '@mui/material';
+import { 
+    USER_MANAGEMENT_PAGE,
+    REVIEW_PAGE,
+    JUSTIFICATION_PAGE
+} from '../../config/names_PL';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -15,19 +20,20 @@ import { Link } from 'react-router-dom'
 import { getUserPromiseSelector, getUserObjectSelector } from '../../module/user/userSelector';
 import { getMenuOptions, getMenuOptionsPromise } from '../../module/menuOptions/menuOptionsSelector';
 import MenuButtons from './MenuButtons';
+import { stringAvatar } from '../../module/user/userAvatar';
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const localMenuOptions = [
     {
-        name: "Przegląd",
+        name: REVIEW_PAGE,
         path: '/review'
     }, {
-        name: 'Wyjaśnienie',
+        name: JUSTIFICATION_PAGE,
         path: '/justification'
     }, {
-        name: 'Zarządzanie użytkownikami',
+        name: USER_MANAGEMENT_PAGE,
         path: '/userManagement'
     }
 ]
@@ -227,7 +233,7 @@ const Header = () => {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar {...stringAvatar(user.name, user.surname)}  />
                                 </IconButton>
                             </Tooltip>
                             <Menu

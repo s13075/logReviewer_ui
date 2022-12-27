@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import {
+    APPLICATION_SEARCH,
+    ENTER_APPLICATION_NAME,
+    SEARCH
+    } from '../../config/names_PL';
 import { Box, Paper, Typography, Button, TextField } from '@mui/material';
 import { useDispatch} from 'react-redux';
 import { getReviewedApplicationByNameAction } from '../../module/reviewedApplication/reviewedApplicationAction';
@@ -16,12 +21,12 @@ const ReviewedApplicationFilter = () => {
                 width: '100%',
                 height: '100%'
             }}>
-                <Typography> Search Applicatioins</Typography>
+                <Typography> {APPLICATION_SEARCH}</Typography>
                 <Box>
                     <TextField
-                        placeholder='Enter Application name'
+                        placeholder= {ENTER_APPLICATION_NAME}
                         id='application-serach'
-                        label='Enter Application name'
+                        label= {ENTER_APPLICATION_NAME}
                         variant='outlined'
                         value={searchText}
                         onChange={(event) => setSearchText(event.target.value)}
@@ -35,7 +40,7 @@ const ReviewedApplicationFilter = () => {
                         dispatch(getReviewedApplicationByNameAction(searchText));
                     }}
                 >
-                    Search
+                    {SEARCH}
                 </Button>
             </Paper>
         </Box>

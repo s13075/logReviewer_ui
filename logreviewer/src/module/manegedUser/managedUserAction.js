@@ -34,10 +34,10 @@ export const registerUser = (user) => async (dispatch) => {
     }
 };
 
-export const selectUser = (userId) => async (dispatch) => {
+export const selectUser = (empoleeId) => async (dispatch) => {
     try {
         dispatch({type: GET_USER_PENDING});
-        const response = await selectUserService(userId);
+        const response = await selectUserService(empoleeId);
          dispatch({
             type: GET_USER,
             payload: response.data,

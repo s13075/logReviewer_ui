@@ -6,6 +6,9 @@ import { getManagedUserListSelector, getManagedUserListPromiseSelector } from '.
 import { Box, Typography } from '@mui/material';
 import UserList from './UserList';
 import UserSelectedItem from './UserSelectedItem';
+import { 
+  USER_MANAGEMENT_PAGE
+} from '../../config/names_PL';
 
 const UserManagementContainer = () => {
   const dispatch = useDispatch();
@@ -19,8 +22,10 @@ const UserManagementContainer = () => {
 
   return (
     <Box>
-      <Typography>UserManagementContainer</Typography>
-      <UserSelectedItem/>
+      <Typography variant='h4'>
+        {USER_MANAGEMENT_PAGE}
+      </Typography>
+      <UserSelectedItem />
 
       {allUsersPromise.isPending && (
         <Box ml={2}>
