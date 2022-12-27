@@ -7,14 +7,18 @@ export const loginAction = (email, password) => async (dispatch) => {
     try {
         dispatch({type: 'USER_LOGIN_PENDING'});
         const response = await login(email, password);
-        window.localStorage.setItem('logreviewer-token', response.data.token);
+       // window.localStorage.setItem('logreviewer-token', response.data.token);
         dispatch({
             type: 'USER_LOGIN',
             payload: response.data,
-        });
-        
-        dispatch({type: 'USER_LOGIN_FULFILLED'});
+        })
+        dispatch({
+            type: 'USER_LOGIN2',
+            payload: response.data,
+        })
         dispatch({type: 'SHOW_MENU_OPTIONS'})
+        dispatch({type: 'USER_LOGIN_FULFILLED'});
+        
     } catch (error) {
         console.log(error);
         dispatch({ type: 'USER_LOGIN_ERROR' });

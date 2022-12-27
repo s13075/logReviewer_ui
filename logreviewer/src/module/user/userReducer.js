@@ -1,5 +1,6 @@
 export const USER_INITIAL_STATE = {
     token: null,
+    user: null,
     //window.localStorage.getItem('logreviewer-token'),
     promise:{
         isPending: false,
@@ -10,8 +11,8 @@ export const USER_INITIAL_STATE = {
         isPending: false,
         isFulfilled: false,
         isErrorOcurred: false
-    },
-    user: null,
+    }
+    
 };
 
 const userReducer = (state = USER_INITIAL_STATE, action) => {
@@ -23,10 +24,16 @@ const userReducer = (state = USER_INITIAL_STATE, action) => {
                 token: action.payload.token,
             };
         }
+        case 'USER_LOGIN2':{
+            return{
+                ...state,
+                user: action.payload.user,
+            };
+        }
         case 'USER_REGISTER':{
             return{
                 ...state,
-                user: action.payload,
+                //user: action.payload,
             };
         }
         case 'USER_LOGIN_PENDING':{
