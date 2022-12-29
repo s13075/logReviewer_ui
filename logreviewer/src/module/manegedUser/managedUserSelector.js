@@ -5,6 +5,8 @@ export const getManagedUserListSelector = (rootReducer) => rootReducer.managedUs
 
 export const getManagedUserPromiseSelector  = (rootReducer) => rootReducer.managedUser.userPromise;
 
+export const getManagedUserEditPromiseSelector = (rootReducer) => rootReducer.managedUser.editPromise;
+
 export const getManagedUserListPromiseSelector = (rootReducer) => rootReducer.managedUser.userListPromise;
 
 export const getManagedUserRegisterPromiseSelector = (rootReducer) => rootReducer.managedUser.registerPromise;

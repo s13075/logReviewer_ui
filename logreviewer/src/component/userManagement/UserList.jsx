@@ -17,11 +17,19 @@ import {
     REVIEWER_MANAGER
 } from '../../config/constants';
 import { DataGrid, plPL } from '@mui/x-data-grid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../module/manegedUser/managedUserAction';
+import {
+    // getManagedUserRegisterPromiseSelector,
+    // getManagedUserSelector,
+    // getManagedUserPromiseSelector,
+    getManagedUserEditPromiseSelector
+} from '../../module/manegedUser/managedUserSelector';
 
 const UserList = (allUsers) => {
     const dispatch = useDispatch();
+
+    const managedUserEditProise = useSelector(getManagedUserEditPromiseSelector);
 
     function getRoleNames(params){
         const roles = params.row.roles;
@@ -101,6 +109,7 @@ const UserList = (allUsers) => {
         rowHeight={30}
         localeText={plPL.components.MuiDataGrid.defaultProps.localeText}
         onRowClick={handleRowClick}
+        disabled = {managedUserEditProise.isSelected}
       />
     </div>
   )

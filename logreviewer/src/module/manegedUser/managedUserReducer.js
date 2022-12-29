@@ -1,5 +1,7 @@
 import {
     REGISTER_USER,
+    REGISTER_USER_SELECTED,
+    REGISTER_USER_UN_SELECTED,
     REGISTER_USER_PENDING,
     REGISTER_USER_FULFILLED,
     REGISTER_USER_ERROR,
@@ -10,7 +12,16 @@ import {
     GET_USER_LIST,
     GET_USER_LIST_PENDING,
     GET_USER_LIST_FULFILLED,
-    GET_USER_LIST_ERROR
+    GET_USER_LIST_ERROR,
+    EDIT_USER,
+    EDIT_USER_SAVE,
+    EDIT_USER_UN_SELECTED,
+    EDIT_USER_SELECTED,
+    EDIT_USER_PENDING,
+    EDIT_USER_FULFILLED,
+    EDIT_USER_ERROR,
+    CLEAR_USER,
+    EDIT_USER_LOCAL_ROLES
 } from '../actionTypes';
 
 export const MANAGED_USER_INITIAL_STATE = {
@@ -27,10 +38,17 @@ export const MANAGED_USER_INITIAL_STATE = {
         isErrorOcurred: false
     },
     registerPromise:{
+        isSelected: false,
         isPending: false,
         isFulfilled: false,
         isErrorOcurred: false
-    }  
+    },
+    editPromise:{
+        isSelected: false,
+        isPending: false,
+        isFulfilled: false,
+        isErrorOcurred: false
+    }    
 };
 
 const managedUserReducer = (state = MANAGED_USER_INITIAL_STATE, action) => {
@@ -43,6 +61,32 @@ const managedUserReducer = (state = MANAGED_USER_INITIAL_STATE, action) => {
             };
         }
         case REGISTER_USER:{
+            return{
+                ...state,
+                user: action.payload,
+            };
+        }
+        case CLEAR_USER:{
+            return{
+                ...state,
+                user: action.payload,
+            };
+        }
+        case EDIT_USER:{
+            return{
+                ...state,
+                user: action.payload,             
+            };
+        }
+        case EDIT_USER_LOCAL_ROLES:{
+            return{
+                ...state,
+                user: {...state.user,
+                    roles: action.payload,
+                }     
+            };
+        }
+        case EDIT_USER_SAVE:{
             return{
                 ...state,
             };
@@ -74,24 +118,38 @@ const managedUserReducer = (state = MANAGED_USER_INITIAL_STATE, action) => {
 
             }
         }
+        case REGISTER_USER_SELECTED:{
+            return {
+                ...state,
+                registerPromise: {isSelected: true, isPending: false, isFulfilled: false, isErrorOcurred: false}
+
+            }
+        }
+        case REGISTER_USER_UN_SELECTED:{
+            return {
+                ...state,
+                registerPromise: {isSelected: false, isPending: false, isFulfilled: false, isErrorOcurred: false}
+
+            }
+        }
         case REGISTER_USER_PENDING:{
             return {
                 ...state,
-                registerPromise: {isPending: true, isFulfilled: false, isErrorOcurred: false}
+                registerPromise: {isSelected: false, isPending: true, isFulfilled: false, isErrorOcurred: false}
 
             }
         }
         case REGISTER_USER_ERROR:{
             return {
                 ...state,
-                registerPromise: {isPending: false, isFulfilled: false, isErrorOcurred: true}
+                registerPromise: {isSelected: false, isPending: false, isFulfilled: false, isErrorOcurred: true}
 
             }
         }
         case REGISTER_USER_FULFILLED:{
             return {
                 ...state,
-                registerPromise: {isPending: false, isFulfilled: true, isErrorOcurred: false}
+                registerPromise: {isSelected: false, isPending: false, isFulfilled: true, isErrorOcurred: false}
 
             }
         }
@@ -113,6 +171,41 @@ const managedUserReducer = (state = MANAGED_USER_INITIAL_STATE, action) => {
             return {
                 ...state,
                 userListPromise: {isPending: false, isFulfilled: true, isErrorOcurred: false}
+
+            }
+        }
+        case EDIT_USER_SELECTED:{
+            return {
+                ...state,
+                editPromise: {isSelected: true, isPending: false, isFulfilled: false, isErrorOcurred: false}
+
+            }
+        }
+        case EDIT_USER_UN_SELECTED:{
+            return {
+                ...state,
+                editPromise: {isSelected: false, isPending: false, isFulfilled: false, isErrorOcurred: false}
+
+            }
+        }
+        case EDIT_USER_PENDING:{
+            return {
+                ...state,
+                editPromise: {isSelected: false, isPending: true, isFulfilled: false, isErrorOcurred: false}
+
+            }
+        }
+        case EDIT_USER_ERROR:{
+            return {
+                ...state,
+                editPromise: {isSelected: false, isPending: false, isFulfilled: false, isErrorOcurred: true}
+
+            }
+        }
+        case EDIT_USER_FULFILLED:{
+            return {
+                ...state,
+                registerPromise: {isSelected: false, isPending: false, isFulfilled: true, isErrorOcurred: false}
 
             }
         }
