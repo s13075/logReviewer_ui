@@ -35,6 +35,7 @@ const PermissionsChangeList = ({ permissionsChangeList }) => {
 
   return (
     <Box height= '100%' width= '100%'>
+        <Box>PERMISSION CHANGES</Box>
         <DataGrid
         rows={rows}
         columns={columns}

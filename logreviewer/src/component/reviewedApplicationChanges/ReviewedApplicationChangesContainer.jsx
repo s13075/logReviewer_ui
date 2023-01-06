@@ -14,7 +14,7 @@ import {
   permissionsRequestListPromiseSelector
  } from '../../module/permissionsRequest/permissionsRequestSelector';
 import { getPermissionsRequestListAction } from '../../module/permissionsRequest/permissionsRequestAction';
-
+import ReconciliationContainer from './ReconciliationContainer';
 
 const ReviewedApplicationChangesContainer = () => {
   const dispatch = useDispatch();
@@ -61,7 +61,9 @@ const ReviewedApplicationChangesContainer = () => {
               </div>
             )}
           </Box>
-          <Box height="50vh" width='50vw'> box parent</Box>
+          <Box height="50vh" width='50vw'> 
+            <ReconciliationContainer/>
+          </Box>
         </Box>
         <Box height="100vh" width='50vw' display='flex' flexDirection='column'>
           <Box height="70vh" width='50vw'>

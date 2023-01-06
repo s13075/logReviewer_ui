@@ -36,6 +36,7 @@ const PermissionsRequestList = ({ permissionsRequestList }) => {
 
   return (
     <Box height= '100%' width= '100%'>
+        <Box>PERMISSION REQUESTS</Box>
         <DataGrid
         rows={rows}
         columns={columns}
