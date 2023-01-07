@@ -11,37 +11,46 @@ import {ADDITIONAL_DETAILS,
     EVENT_ID,
     REQUEST_NUMBER,
     APPROVER_EMPLOYEE_ID,
-    REQUEST_STATUS
+    REQUEST_STATUS,
+    PERMISSION_REQUESTS
 } from '../../config/names_PL'
 import { Box, Typography } from '@mui/material';
 import { DataGrid, plPL } from '@mui/x-data-grid';
+import {hasSelectedPermissionRequest, permissionRequestSelected} from '../../module/reconciliation/reconciliationSlice';
+
 
 const PermissionsRequestList = ({ permissionsRequestList }) => {
-    console.log(permissionsRequestList);
+      const dispatch = useDispatch();
 
+      const _hasSelectedPermissionRequest = useSelector(hasSelectedPermissionRequest);
+   
+    
       const rows = permissionsRequestList;
       const columns = [
         { field: 'id', headerName: EVENT_ID, width: 120 },
-        { field: 'requestNumber', headerName: REQUEST_NUMBER, width: 120 },
-        { field: 'eventDate', headerName: EVENT_DATE, width: 120 },
-        { field: 'subjectUserEmploeeId', headerName: SUBJECT_EMPLOYEE_ID, width: 120 },
-        { field: 'approverUserEmploeeId', headerName: APPROVER_EMPLOYEE_ID, width: 120 },
-        { field: 'informationSecurityAdministratorEmploeeId', headerName: ISA_EMPLOYEE_ID, width: 120 },
+        { field: 'requestNumber', headerName: REQUEST_NUMBER, width: 100 },
+        { field: 'eventDate', headerName: EVENT_DATE, width: 160 },
+        { field: 'subjectUserEmploeeId', headerName: SUBJECT_EMPLOYEE_ID, width: 110 },
+        { field: 'approverUserEmploeeId', headerName: APPROVER_EMPLOYEE_ID, width: 100 },
+        { field: 'informationSecurityAdministratorEmploeeId', headerName: ISA_EMPLOYEE_ID, width: 80 },
         { field: 'applicationName', headerName: APPLICATION_NAME, width: 120 },
         { field: 'applicationInventoryNo', headerName: APPLICATION_INVENTORY_NO, width: 120 },
-        { field: 'applicationRoleName', headerName: APPLICATION_ROLE_NAME, width: 120 }, 
+        { field: 'applicationRoleName', headerName: APPLICATION_ROLE_NAME, width: 140 }, 
         { field: 'status', headerName: REQUEST_STATUS, width: 120 },
         
       ]
+      const handleRowClick = (params) => {
+        dispatch(permissionRequestSelected(params.row))
+      }
 
   return (
     <Box height= '100%' width= '100%'>
-        <Box>PERMISSION REQUESTS</Box>
-        <DataGrid
+        <Box>{PERMISSION_REQUESTS}</Box>
+        {!_hasSelectedPermissionRequest &&(<DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
+        pageSize={100}
+        rowsPerPageOptions={[100]}
         rowHeight={30}
         localeText={plPL.components.MuiDataGrid.defaultProps.localeText}
         columnVisibilityModel={{
@@ -49,9 +58,17 @@ const PermissionsRequestList = ({ permissionsRequestList }) => {
             id: false,
             applicationName: false,
             applicationInventoryNo: false,
+            status: false
           }}
- //       onRowClick={}
+          sx={{
+            '& .MuiDataGrid-columnHeaderTitle': {
+                textOverflow: "clip",
+                whiteSpace: "break-spaces",
+                lineHeight: 1
+            }}}
+       onRowClick={handleRowClick}
         />
+        )}
   </Box>
   )
 }

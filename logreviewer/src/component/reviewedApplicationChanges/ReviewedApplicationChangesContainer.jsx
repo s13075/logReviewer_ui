@@ -13,6 +13,7 @@ import {
   permissionsRequestListSelector, 
   permissionsRequestListPromiseSelector
  } from '../../module/permissionsRequest/permissionsRequestSelector';
+ import {REVIEW_CHANGES_FOR} from '../../config/names_PL';
 import { getPermissionsRequestListAction } from '../../module/permissionsRequest/permissionsRequestAction';
 import ReconciliationContainer from './ReconciliationContainer';
 
@@ -40,7 +41,7 @@ const ReviewedApplicationChangesContainer = () => {
 
   return (
     <Box >
-      <Typography height='5%'>reviewedApplicationChangesContainer</Typography>
+      <Typography height='5%'>{REVIEW_CHANGES_FOR}</Typography>
       <Box height="100vh" width='100vw' display='flex' flexDirection='row'>
         <Box height="100vh" width='50vw' display='flex' flexDirection='column'>
           <Box height="50vh" width='50vw'>

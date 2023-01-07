@@ -48,8 +48,6 @@ const UserSelectedItem = () => {
 
     const dispatch = useDispatch();
 
-
-
     const managedUserPromise = useSelector(getManagedUserPromiseSelector);
     const managedUser = useSelector(getManagedUserSelector);
     const managedUserEditPromise = useSelector(getManagedUserEditPromiseSelector);
@@ -92,9 +90,6 @@ const UserSelectedItem = () => {
                 ]));
 
             }
-
-
-
         }
     });
 
@@ -121,31 +116,8 @@ const UserSelectedItem = () => {
     const handelEditClick = () => {
         dispatch(lockForUserEdit());
     };
-    const handelSaveEditedClick = () => {
-        // dispatch(updateUser(formik.values.emploeeId, {
-        //     name: formik.values.name,
-        //     surname: formik.values.surname,
-        //     email: formik.values.email,
-        //     password: formik.values.password,
-        //     roles: formik.values.roles
-        // }));
 
-        dispatch(unlockForUserEdit());
-        dispatch(getUserList());
-    };
     const handelCancelEditedClick = () => {
-        dispatch(unlockForUserEdit());
-        dispatch(getUserList());
-    };
-    const handelSaveAddedClick = () => {
-        // dispatch(registerUser({
-        //     name: formik.values.name,
-        //     surname: formik.values.surname,
-        //     email: formik.values.email,
-        //     password: formik.values.password,
-        //     roles: formik.values.roles
-
-        // }));
         dispatch(unlockForUserEdit());
         dispatch(getUserList());
     };
@@ -294,7 +266,6 @@ const UserSelectedItem = () => {
                                 sx={{
                                     marginTop: '2rem'
                                 }}
- //                               onClick={handelSaveEditedClick}
                             >
                                 {SAVE}ed
                             </Button>
@@ -320,7 +291,6 @@ const UserSelectedItem = () => {
                                 sx={{
                                     marginTop: '2rem'
                                 }}
- //                               onClick={handelSaveAddedClick}
                             >
                                 {SAVE}
                             </Button>

@@ -13,43 +13,52 @@ import {ADDITIONAL_DETAILS,
     APPLICATION_NAME,
     APPLICATION_INVENTORY_NO,
     APPLICATION_ROLE_NAME,
-    EVENT_ID
+    EVENT_ID,
+    PERMISSION_CHANGES
 } from '../../config/names_PL'
 import { Box, Typography } from '@mui/material';
 import { DataGrid, plPL } from '@mui/x-data-grid';
+import {permissionChangeSelected} from '../../module/reconciliation/reconciliationSlice';
 
 const PermissionsChangeList = ({ permissionsChangeList }) => {
-    console.log(permissionsChangeList);
-
+      const dispatch = useDispatch();
       const rows = permissionsChangeList;
       const columns = [
         { field: 'id', headerName: EVENT_ID, width: 120 },
-        { field: 'eventDate', headerName: EVENT_DATE, width: 120 },
-        { field: 'subjectUserEmploeeId', headerName: SUBJECT_EMPLOYEE_ID, width: 120 },
-        { field: 'informationSecurityAdministratorEmploeeId', headerName: ISA_EMPLOYEE_ID, width: 120 },
+        { field: 'eventDate', headerName: EVENT_DATE, width: 160 },
+        { field: 'subjectUserEmploeeId', headerName: SUBJECT_EMPLOYEE_ID, width: 110 },
+        { field: 'informationSecurityAdministratorEmploeeId', headerName: ISA_EMPLOYEE_ID, width: 80 },
         { field: 'applicationName', headerName: APPLICATION_NAME, width: 120 },
         { field: 'applicationInventoryNo', headerName: APPLICATION_INVENTORY_NO, width: 120 },
-        { field: 'applicationRoleName', headerName: APPLICATION_ROLE_NAME, width: 120 },       
-        { field: 'additionalDetails', headerName: ADDITIONAL_DETAILS, width: 120 },
+        { field: 'applicationRoleName', headerName: APPLICATION_ROLE_NAME, width: 140 },       
+        { field: 'additionalDetails', headerName: ADDITIONAL_DETAILS, width: 110 },
       ]
+      const handleRowClick = (params) =>{
+        dispatch(permissionChangeSelected(params.row));
+    };
 
   return (
     <Box height= '100%' width= '100%'>
-        <Box>PERMISSION CHANGES</Box>
+        <Box>{PERMISSION_CHANGES}</Box>
         <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
+        pageSize={100}
+        rowsPerPageOptions={[100]}
         rowHeight={30}
         localeText={plPL.components.MuiDataGrid.defaultProps.localeText}
         columnVisibilityModel={{
-            // Hide columns status and traderName, the other columns will remain visible
             id: false,
             applicationName: false,
             applicationInventoryNo: false,
           }}
- //       onRowClick={}
+        sx={{
+            '& .MuiDataGrid-columnHeaderTitle': {
+                textOverflow: "clip",
+                whiteSpace: "break-spaces",
+                lineHeight: 1
+            }}}
+        onRowClick={handleRowClick}
         />
   </Box>
   )

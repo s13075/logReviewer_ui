@@ -13,9 +13,7 @@ export const getPermissionsRequestListAction = () => async (dispatch) => {
     console.log(PERMISSIONS_REQUEST_PENDING);
     dispatch({type: PERMISSIONS_REQUEST_PENDING});
     const response = await getAllPermissionsRequestService();
-   // window.localStorage.setItem('logreviewer-token', response.data.token);
-   console.log(response);
-    dispatch({
+     dispatch({
         type: PERMISSIONS_REQUEST_FETCHED,
         payload: response.data,
     })

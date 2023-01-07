@@ -10,17 +10,18 @@ export const listUsersService = () => axios.get(`http://localhost:8080/api/v1/us
 export const selectUserService = (emploeeId) => axios.get(`http://localhost:8080/api/v1/user/${emploeeId}`);
 
 export const updateUserService = (emploeeId, user) => axios.put(`http://localhost:8080/api/v1/user/${emploeeId}`, user);
-
-
 //APPLICATION
 export const getReviewedApplicationService = () => axios.get(`http://localhost:8080/api/v1/applications`);
 
 export const getReviewedApplicationByNameService = (applicationName) => axios.get(`http://localhost:8080/api/v1/applications/${applicationName}`);
-
 //PERMISSION CHANGE
 export const getAllPermissionsChangeService = () => axios.get(`http://localhost:8080/api/v1/permissionsChange`);
-
 //PERMISSION REQUEST
 export const getAllPermissionsRequestService = () => axios.get(`http://localhost:8080/api/v1/permissionsRequest`);
+//RECONCILE WITH REQUEST
+export const postReconciliationRequestedService = (body) =>  axios.post(`http://localhost:8080/api/v1/reconciliation/requested`, body);
+//RECONCILE WITHOUT REQUEST JUSTIFICATION
+export const postReconciliationJustifiedService = (body) =>  axios.post(`http://localhost:8080/api/v1/reconciliation/justified`, body);
+
 
 
