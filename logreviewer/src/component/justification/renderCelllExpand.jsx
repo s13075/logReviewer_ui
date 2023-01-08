@@ -4,6 +4,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
+import {
+  PENDING_ADMIN,
+  PENDING_REVIEW,
+  COMPLETE,
+  UNKNOWN
+} from '../../config/names_PL';
+import moment from 'moment';
 
 function isOverflown(element) {
   return (
@@ -105,7 +112,7 @@ GridCellExpand.propTypes = {
   width: PropTypes.number.isRequired,
 };
 
-export function renderCellExpand(params) {
+export const renderCellExpand = (params) => {
   return (
     <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
   );
@@ -115,3 +122,21 @@ renderCellExpand.propTypes = {
   colDef: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
 };
+
+export  const statusGetter = (value) => {
+  switch (value?.value) {
+    case "PENDING_ADMIN":
+      return PENDING_ADMIN;
+    case 'PENDING_REVIEW':
+      return PENDING_REVIEW;
+    case 'COMPLETE':
+      return COMPLETE;
+    default:
+      return UNKNOWN;
+  }
+};
+
+export const dateFormater = (value) => {
+  return moment(value?.value).format("DD.MM.YYYY HH:mm:ss")
+
+}

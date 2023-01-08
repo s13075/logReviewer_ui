@@ -74,6 +74,7 @@ export const putJustification = createAsyncThunk(
             }
             console.log(body);
             const data = await putJustificationService(justificationData[0], body);
+
             return await data;
         } catch (error) {
             console.log(error);
@@ -90,8 +91,6 @@ export const getSelectedJustification = (state)=> state.justification.selectedJu
 export const getJustificationsListStatus = (state) => state.justification.status;
 export const getStatusJustificationPermissionsChangeListSelector = (state) => state.justification.statusJustificationPermissionsChangeList;
 export const getSelectedJustificationPermissionsChangeListSelector = (state) => state.justification.selectedJustificationPermissionsChangeList;
-
-
 
 export const hasSelectedJustification = createSelector(
     [getSelectedJustification],
@@ -116,6 +115,12 @@ export const isLoadingJustificationPermissionsChangeList = createSelector(
 export const isIdleJustificationPermissionsChangeList = createSelector(
     [getStatusJustificationPermissionsChangeListSelector],
     (statusJustificationPermissionsChangeList) => statusJustificationPermissionsChangeList === 'idle' ? true : false   
+);
+
+export const getSelectedJustificationHistorySelector = createSelector(
+    [getSelectedJustification, hasSelectedJustification],
+    (selectedJustification, hasJustification) =>
+    hasJustification ? selectedJustification.justificationHistorySet : []
 );
 
 

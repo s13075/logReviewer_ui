@@ -15,7 +15,7 @@ import {
     UNKNOWN
 } from '../../config/names_PL';
 import { DataGrid, plPL } from '@mui/x-data-grid';
-import { renderCellExpand } from './renderCelllExpand';
+import { renderCellExpand, statusGetter, dateFormater } from './renderCelllExpand';
 import { getJustificationPermissionsChangeList, justificationSelected } from '../../module/justification/justificationSlice';
 import { useDispatch } from 'react-redux';
 
@@ -31,14 +31,14 @@ const JustificationList = ({ justificationList }) => {
     const rows = justificationList;
     const columns = [
         { field: 'id', headerName: JUSTIFICATION_ID, width: 180 },
-        { field: 'curentStatus', headerName: CURENT_STATUS, width: 240, valueGetter: statusGetter,},
+        { field: 'curentStatus', headerName: CURENT_STATUS, width: 220, valueGetter: statusGetter,},
         { field: 'lastComment', headerName: LAST_COMMENT, width: 250,
             renderCell: renderCellExpand,
         },
         { field: 'assignedReviewerEmploeeId', headerName: ASSIGNED_REVIEWER, width: 110 },
         { field: 'assignedISAEmploeeId', headerName: ASSIGNED_ISA, width: 80 },
-        { field: 'createdDate', headerName: CREATE_DATE, width: 160 },
-        { field: 'modifiedDate', headerName: MODIFY_DATE, width: 160 }
+        { field: 'createdDate', headerName: CREATE_DATE, width: 160, valueGetter: dateFormater },
+        { field: 'modifiedDate', headerName: MODIFY_DATE, width: 160, valueGetter: dateFormater }
     ]
 
     return (
@@ -51,8 +51,12 @@ const JustificationList = ({ justificationList }) => {
                 rowsPerPageOptions={[100]}
                 rowHeight={30}
                 localeText={plPL.components.MuiDataGrid.defaultProps.localeText}
-                columnVisibilityModel={{
-                    id: false,
+                initialState={{
+                    columns: {
+                        columnVisibilityModel: {
+                            id: false,
+                        },
+                    },
                 }}
                 sx={{
                     '& .MuiDataGrid-columnHeaderTitle': {
@@ -68,17 +72,6 @@ const JustificationList = ({ justificationList }) => {
 
 }
 
-const statusGetter = (value) => {
-    switch (value.row.curentStatus) {
-      case "PENDING_ADMIN":
-        return PENDING_ADMIN;
-      case 'PENDING_REVIEW':
-        return PENDING_REVIEW;
-      case 'COMPLETE':
-        return COMPLETE;
-      default:
-        return UNKNOWN;
-    }
-  };
+
 
 export default JustificationList
