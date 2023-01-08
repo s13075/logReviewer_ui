@@ -1,10 +1,30 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Navigate, Outlet, useParams, useLocation } from 'react-router-dom';
-import {logoutAction} from '../../module/user/userAction'
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { logoutAction } from '../../module/user/userAction';
+import { getUserTokenSelector, getUserRolesSelector } from '../../module/user/userSelector';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 
-const Auth = ({ token, userRoles, redirectPath = '/login', children }) => {
+const RoutesProtector = ({ children }) => {
+    const redirectPath = '/login'
+    const token = useSelector(getUserTokenSelector);
+    const userRoles = useSelector(getUserRolesSelector);
+  
+    axios.interceptors.request.use(
+      config => {
+        //można zapisac token w localstorage
+        //const token = window.localStorage.getItem('logreviewer-token');
+        if (token != null) {
+          config.headers.Authorization = token;
+        }
+        return config;
+      },
+      error => {
+        return Promise.reject(error)
+      }
+    )
     const dispatch = useDispatch();
 
     //przeglądanie ról i sprawdzanie czy którykolwiek z kluczy(ról) zawiera route
@@ -18,7 +38,7 @@ const Auth = ({ token, userRoles, redirectPath = '/login', children }) => {
             REVIEWED_ISA: ['/login','/justification']
         };
 
-        return userRoles.some(role => rolePermissions[role.roleName].includes(route));
+        return userRoles.some(role => rolePermissions[role].includes(route));
     };
     
     //gdzie jest teraz user
@@ -40,4 +60,4 @@ const Auth = ({ token, userRoles, redirectPath = '/login', children }) => {
 
 };
 
-export default Auth;
+export default RoutesProtector;

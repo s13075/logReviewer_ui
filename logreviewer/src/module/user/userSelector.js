@@ -10,10 +10,10 @@ export const getUserObjectSelector = (rootReducer) => rootReducer.user.user;
 
 export const getUserRolesSelector = createSelector(
     [getUserObjectSelector],
-    (user)=> user ? user.roles : []
+    (user) => user ? user.roles.map(role => role.roleName) : []
 );
 
 export const hasUserSelector = createSelector(
     [getUserObjectSelector],
-    (user) => user ? true :false 
+    (user) => user ? true : false 
 )

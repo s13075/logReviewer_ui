@@ -22,11 +22,6 @@ const JustificationContainer = () => {
   const _hasSelectedJustification = useSelector(hasSelectedJustification);
   const _isLoadingJustificationPermissionsChangeList = useSelector(isLoadingJustificationPermissionsChangeList);
   const _isIdleJustificationPermissionsChangeList = useSelector(isIdleJustificationPermissionsChangeList);
-  
-
-  console.log(_hasSelectedJustification);
-  console.log(_isLoadingJustificationPermissionsChangeList);
-  console.log(_isIdleJustificationPermissionsChangeList);
 
   useEffect(() => {
     dispatch(getJustificationList());
@@ -34,7 +29,6 @@ const JustificationContainer = () => {
 
   return (
     <Box >
-      {console.log(justificationsList)}
       <Typography height='5%'>{JUSTIFICATION_PAGE}</Typography>
       <Box height="100vh" width='100vw' display='flex' flexDirection='column'>
         <Box height="30vh" width='100vw'>
@@ -66,11 +60,9 @@ const JustificationContainer = () => {
                     permissionsChangeList={selectedJustificationPermissionsChangeListSelector}
                   />
                 )}
-
                 <JustificationPanel></JustificationPanel>
               </Box>
             )}
-
           </Box>
           <Box height="50vh" width='50vw'>
             {!_hasSelectedJustification && (
@@ -85,5 +77,4 @@ const JustificationContainer = () => {
     </Box>
   )
 }
-
 export default JustificationContainer
