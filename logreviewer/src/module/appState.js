@@ -6,9 +6,9 @@ import menuOptionsReducer from './menuOptions/menuOptionsReducer';
 import managedUserReducer from './manegedUser/managedUserReducer';
 import permissionsChangeReducer from './permissionsChange/permissionsChangeReducer';
 import permissionsRequestReducer from './permissionsRequest/permissionsRequestReducer';
-import reconciliationReducer from '../module/reconciliation/reconciliationSlice';
+import reconciliationReducer from './reconciliation/reconciliationSlice';
+import justificationReducer from './justification/justificationSlice';
 
-import React from 'react'
 
 const appState = configureStore({
   reducer: {
@@ -19,6 +19,8 @@ const appState = configureStore({
     permissionsChange: permissionsChangeReducer,
     permissionsRequest: permissionsRequestReducer,
     reconciliation: reconciliationReducer,
+    justification: justificationReducer,
+    
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false

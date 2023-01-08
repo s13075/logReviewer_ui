@@ -11,7 +11,9 @@ import {
     NAME_MINIMUM_LENGHT,
     ENTER_YOUR_SURNAME,
     SURNAME_IS_REQUIRED,
-    SURNAME_MINIMUM_LENGHT
+    SURNAME_MINIMUM_LENGHT,
+    COMMENT_MINIMUM_LENGHT,
+    COMMENT_IS_REQUIRED,
 } from './names_PL';
 import * as yup from 'yup';
 
@@ -33,4 +35,20 @@ export const validationSchema = yup.object({
     //     .min(3, SURNAME_MINIMUM_LENGHT)
     //     .required(SURNAME_IS_REQUIRED),
 });
+
+export const justificationValidationSchema = yup.object().shape({
+    comment: yup
+        .string()
+        .min(20,COMMENT_MINIMUM_LENGHT)
+        .required(COMMENT_IS_REQUIRED),
+});
+    // name: yup
+    //     .string(ENTER_YOUR_NAME)
+    //     .min(3, NAME_MINIMUM_LENGHT)
+    //     .required(NAME_IS_REQUIRED),
+    // surname: yup
+    //     .string(ENTER_YOUR_SURNAME)
+    //     .min(3, SURNAME_MINIMUM_LENGHT)
+    //     .required(SURNAME_IS_REQUIRED),
+
 

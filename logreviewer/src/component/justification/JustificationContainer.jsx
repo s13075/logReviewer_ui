@@ -1,24 +1,77 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography } from '@mui/material';
-import {JUSTIFICATION_PAGE} from '../../config/names_PL';
-
+import {
+  JUSTIFICATION_PAGE,
+  ABOUT_PERMISSION_CHANGES
+} from '../../config/names_PL';
+import { getSelectedJustificationPermissionsChangeListSelector, isIdleJustificationPermissionsChangeList, isLoadingJustificationPermissionsChangeList, hasSelectedJustification, isIdleJustification, getJustificationList, getJustificationsListSelector, isLoadingJustification } from '../../module/justification/justificationSlice';
+import JystificationList from './JustificationList';
+import PermissionsChangeList from '../reviewedApplicationChanges/PermissionsChangeList';
+import JustificationPanel from './JustificationPanel';
 
 const JustificationContainer = () => {
+  const dispatch = useDispatch();
+
+  const justificationsList = useSelector(getJustificationsListSelector);
+  const selectedJustificationPermissionsChangeListSelector = useSelector(getSelectedJustificationPermissionsChangeListSelector)
+  const _isLoadingJustification = useSelector(isLoadingJustification);
+  const _isIdleJustification = useSelector(isIdleJustification);
+  const _hasSelectedJustification = useSelector(hasSelectedJustification);
+  const _isLoadingJustificationPermissionsChangeList = useSelector(isLoadingJustificationPermissionsChangeList);
+  const _isIdleJustificationPermissionsChangeList = useSelector(isIdleJustificationPermissionsChangeList);
+
+  console.log(_hasSelectedJustification);
+  console.log(_isLoadingJustificationPermissionsChangeList);
+  console.log(_isIdleJustificationPermissionsChangeList);
+
+  useEffect(() => {
+    dispatch(getJustificationList());
+  }, [dispatch]);
+
   return (
     <Box >
-    <Typography height='5%'>{JUSTIFICATION_PAGE}</Typography>
-    <Box height="100vh" width='100vw' display='flex' flexDirection='column'>
-      <Box height="50vh" width='100vw'>
-        LISTA WYJASNIENIEŃ
-      </Box>
-      <Box height="50vh" width='100vw' display='flex' flexDirection='ROW'>
-        <Box height="50vh" width='50vw'>
-          RECONCILIATION CONTAINER
+      {console.log(justificationsList)}
+      <Typography height='5%'>{JUSTIFICATION_PAGE}</Typography>
+      <Box height="100vh" width='100vw' display='flex' flexDirection='column'>
+        <Box height="30vh" width='100vw'>
+          {_isLoadingJustification && (
+            <Box> LISTA WYJASNIENIEŃ się ładuje</Box>
+          )}
+          {_isIdleJustification && (
+            <JystificationList justificationList={justificationsList} />
+
+          )}
         </Box>
-        <Box height="50vh" width='50vw'>JUSTIFICATION HISTORY</Box>
+        <Box height="70vh" width='100vw' display='flex' flexDirection='ROW'>
+          <Box height="50vh" width='50vw'>
+
+            {!_hasSelectedJustification && (
+              <Box>NO JUSTIFICATION selected TO SHOW CHANGES AVAILIBLE</Box>
+            )}
+
+            {_hasSelectedJustification && (
+              <Box height="50%" width='100%'>
+
+                {_isLoadingJustificationPermissionsChangeList && (
+                  <Box>JUSTIFICATION się ładuje</Box>
+                )}
+
+                {_isIdleJustificationPermissionsChangeList && (
+                  <PermissionsChangeList
+                    listTitle={ABOUT_PERMISSION_CHANGES}
+                    permissionsChangeList={selectedJustificationPermissionsChangeListSelector}
+                  />
+                )}
+                <JustificationPanel></JustificationPanel>
+              </Box>
+            )}
+
+          </Box>
+          <Box height="50vh" width='50vw'>JUSTIFICATION HISTORY</Box>
+        </Box>
       </Box>
     </Box>
-  </Box>
   )
 }
 

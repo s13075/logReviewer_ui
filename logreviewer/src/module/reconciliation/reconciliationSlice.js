@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postReconciliationRequestedService, postReconciliationJustifiedService} from '../services';
 import { createSelector } from 'reselect';
+import {ALERT_UNMATCHED_ISA} from '../../config/names_PL';
 
 const initialState = {
     permissionRequest:null,
@@ -55,7 +56,18 @@ const reconciliationSlice = createSlice({
         },
         permissionChangeSelected(state, action){
             if(!state.permissionChanges.some((change) => change.id === action.payload.id)){
-                state.permissionChanges.push(action.payload)
+                console.log(!state.permissionChanges.some((change) => 
+                change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId));
+                console.log(state.permissionChanges.length !== 0);
+
+                if(!state.permissionChanges.some((change) => 
+                change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId) &&
+                state.permissionChanges.length !== 0){
+                    alert(ALERT_UNMATCHED_ISA);
+                }else{
+                    state.permissionChanges.push(action.payload)
+                }
+              
             }
         },
         permissionChangeDeselected(state, action){

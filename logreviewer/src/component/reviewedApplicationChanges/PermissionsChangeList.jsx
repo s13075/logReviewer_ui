@@ -20,7 +20,7 @@ import { Box, Typography } from '@mui/material';
 import { DataGrid, plPL } from '@mui/x-data-grid';
 import {permissionChangeSelected} from '../../module/reconciliation/reconciliationSlice';
 
-const PermissionsChangeList = ({ permissionsChangeList }) => {
+const PermissionsChangeList = ({ permissionsChangeList , listTitle, handleRowClick }) => {
       const dispatch = useDispatch();
       const rows = permissionsChangeList;
       const columns = [
@@ -33,13 +33,10 @@ const PermissionsChangeList = ({ permissionsChangeList }) => {
         { field: 'applicationRoleName', headerName: APPLICATION_ROLE_NAME, width: 140 },       
         { field: 'additionalDetails', headerName: ADDITIONAL_DETAILS, width: 110 },
       ]
-      const handleRowClick = (params) =>{
-        dispatch(permissionChangeSelected(params.row));
-    };
 
   return (
     <Box height= '100%' width= '100%'>
-        <Box>{PERMISSION_CHANGES}</Box>
+        <Box>{listTitle}</Box>
         <DataGrid
         rows={rows}
         columns={columns}

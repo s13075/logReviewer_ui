@@ -31,7 +31,7 @@ const PermissionsRequestList = ({ permissionsRequestList }) => {
         { field: 'requestNumber', headerName: REQUEST_NUMBER, width: 100 },
         { field: 'eventDate', headerName: EVENT_DATE, width: 160 },
         { field: 'subjectUserEmploeeId', headerName: SUBJECT_EMPLOYEE_ID, width: 110 },
-        { field: 'approverUserEmploeeId', headerName: APPROVER_EMPLOYEE_ID, width: 100 },
+        { field: 'approverUserEmploeeId', headerName: APPROVER_EMPLOYEE_ID, width: 110 },
         { field: 'informationSecurityAdministratorEmploeeId', headerName: ISA_EMPLOYEE_ID, width: 80 },
         { field: 'applicationName', headerName: APPLICATION_NAME, width: 120 },
         { field: 'applicationInventoryNo', headerName: APPLICATION_INVENTORY_NO, width: 120 },
