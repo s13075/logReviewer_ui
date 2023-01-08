@@ -39,7 +39,6 @@ function App() {
 
   return (
     <SnackbarProvider maxSnack={3}>
-      <LocationProvider>
         <Router>
           <Layout>
             <Routes>
@@ -52,11 +51,9 @@ function App() {
                 <Route exact path='/justification' element={<JustificationContainer />} />
                 <Route path="*" element={<p>There's nothing here: 404!</p>} />
               </Route>
-              
             </Routes>
           </Layout>
         </Router>
-      </LocationProvider>
     </SnackbarProvider>
   );
 }

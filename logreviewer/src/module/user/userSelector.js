@@ -12,3 +12,8 @@ export const getUserRolesSelector = createSelector(
     [getUserObjectSelector],
     (user)=> user ? user.roles : []
 );
+
+export const hasUserSelector = createSelector(
+    [getUserObjectSelector],
+    (user) => user ? true :false 
+)

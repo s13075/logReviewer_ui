@@ -13,6 +13,7 @@ export const ADD = "DODAJ";
 export const CANCEL = "ANULUJ";
 export const JUSTIFY = "WYJAŚNIJ";
 
+
 //ROLES
 export const ROLE_ADMIN = "ADMIN UŻYTKOWNIKÓW";
 export const ROLE_REVIEWER = "KONTROLER";
@@ -26,6 +27,7 @@ export const ENTER_EMAIL_ADRESS = "WPISZ ADRES EMAIL";
 export const ENTER_PASSWORD = "WPISZ HASŁO";
 export const LOGIN = "ZALOGUJ";
 export const LOGIN_PAGE = "LOGOWANIE";
+export const LOGOUT =  "WYLOGUJ"
 
 //WYSZUKIWANIE APLIKACJI
 export const APPLICATION_SEARCH = "WYSZUKAJ APPLIKACJE";

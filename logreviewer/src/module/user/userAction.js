@@ -1,5 +1,7 @@
 import { login, register } from "./userService";
 import { useDispatch} from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export const loginAction = (email, password) => async (dispatch) => {
@@ -44,8 +46,11 @@ export const registerAction = (user) => async (dispatch) => {
 };
 
 export const logoutAction = () => async (dispatch) =>{
+    ;
     try{
+        
         dispatch({type: 'USER_LOGOUT'});
+
     }  catch (error) {
         console.log(error);
     }
