@@ -56,18 +56,13 @@ const reconciliationSlice = createSlice({
         },
         permissionChangeSelected(state, action){
             if(!state.permissionChanges.some((change) => change.id === action.payload.id)){
-                console.log(!state.permissionChanges.some((change) => 
-                change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId));
-                console.log(state.permissionChanges.length !== 0);
-
                 if(!state.permissionChanges.some((change) => 
                 change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId) &&
                 state.permissionChanges.length !== 0){
                     alert(ALERT_UNMATCHED_ISA);
                 }else{
                     state.permissionChanges.push(action.payload)
-                }
-              
+                }              
             }
         },
         permissionChangeDeselected(state, action){
@@ -77,7 +72,6 @@ const reconciliationSlice = createSlice({
             state.permissionRequest=null;
             state.permissionChanges=[];
             state.status= 'idle';
-
         }
     },
     extraReducers: builder =>{
@@ -99,7 +93,6 @@ const reconciliationSlice = createSlice({
                 state.status= 'idle';
             })
     }
-
 })
 
 export const {

@@ -1,4 +1,3 @@
-import React from 'react';
 import{
     PERMISSIONS_CHANGE_FETCHED,
     PERMISSIONS_CHANGE_PENDING,
@@ -9,12 +8,8 @@ import { getAllPermissionsChangeService } from '../services';
 
 export const getPermissionsChangeListAction = () => async (dispatch) => {
   try {
-
-    console.log(PERMISSIONS_CHANGE_PENDING);
     dispatch({type: PERMISSIONS_CHANGE_PENDING});
     const response = await getAllPermissionsChangeService();
-   // window.localStorage.setItem('logreviewer-token', response.data.token);
-   console.log(response);
     dispatch({
         type: PERMISSIONS_CHANGE_FETCHED,
         payload: response.data,

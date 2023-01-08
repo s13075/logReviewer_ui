@@ -42,3 +42,11 @@ export const registerAction = (user) => async (dispatch) => {
         dispatch({ type: 'USER_REGISTER_ERROR' });
     }
 };
+
+export const logoutAction = () => async (dispatch) =>{
+    try{
+        dispatch({type: 'USER_LOGOUT'});
+    }  catch (error) {
+        console.log(error);
+    }
+};

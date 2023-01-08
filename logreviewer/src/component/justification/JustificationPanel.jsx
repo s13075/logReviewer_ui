@@ -15,7 +15,6 @@ import { Select, MenuItem, FormLabel, Button } from '@mui/material';
 import { justificationValidationSchema } from '../../config/validation';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import { StatusDropdown } from './StatusDropdown';
 import { getUserObjectSelector } from '../../module/user/userSelector';
 import { getSelectedJustification, putJustification } from '../../module/justification/justificationSlice';
 
@@ -46,7 +45,7 @@ function JustificationPanel() {
         }
         return statuses.filter(status => status !== currentStatus);
     };
-
+    
     const OptionMenu = ({ currentStatus, roles }) => {
         const statuses = availableStatuses(currentStatus, roles);
         return (
@@ -59,7 +58,7 @@ function JustificationPanel() {
             </Field>
         );
     };
-
+    
     return (
         <Formik
             initialValues={{

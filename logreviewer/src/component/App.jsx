@@ -14,18 +14,20 @@ import ReviewedApplicationChangesContainer from './reviewedApplicationChanges/Re
 import UserManagementContainer from './userManagement/UserManagementContainer';
 import JustificationContainer from './justification/JustificationContainer';
 import { SnackbarProvider } from 'notistack';
+import { LocationProvider } from '@reach/router';
 import Auth from './Auth';
-import { getUserTokenSelector } from '../module/user/userSelector';
+import { getUserTokenSelector, getUserRolesSelector } from '../module/user/userSelector';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 function App() {
   const token = useSelector(getUserTokenSelector);
-  
+  const userRoles = useSelector(getUserRolesSelector);
+
   axios.interceptors.request.use(
     config => {
       //const token = window.localStorage.getItem('logreviewer-token');
-      if(token !=null){
+      if (token != null) {
         config.headers.Authorization = token;
       }
       return config;
@@ -37,21 +39,24 @@ function App() {
 
   return (
     <SnackbarProvider maxSnack={3}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route exact path='/login' element={<Login />} />
-            <Route exact path='/register' element={<Register />} />
-            <Route element={<Auth token={token} />}>
-              <Route exact path='/review' element={<ReviewedApplicationContainer />} />
-              <Route exact path='/reviewChanges' element={<ReviewedApplicationChangesContainer />} />
-              <Route exact path='/userManagement' element={<UserManagementContainer />} />
-              <Route exact path='/justification' element={<JustificationContainer />} />
-            </Route>
-            <Route path="*" element={<p>There's nothing here: 404!</p>} />
-          </Routes>
-        </Layout>
-      </Router>
+      <LocationProvider>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route exact path='/login' element={<Login />} />
+              <Route exact path='/register' element={<Register />} />
+              <Route element={<Auth token={token} userRoles={userRoles} />}>
+                <Route exact path='/review' element={<ReviewedApplicationContainer />} />
+                <Route exact path='/reviewChanges' element={<ReviewedApplicationChangesContainer />} />
+                <Route exact path='/userManagement' element={<UserManagementContainer />} />
+                <Route exact path='/justification' element={<JustificationContainer />} />
+                <Route path="*" element={<p>There's nothing here: 404!</p>} />
+              </Route>
+              
+            </Routes>
+          </Layout>
+        </Router>
+      </LocationProvider>
     </SnackbarProvider>
   );
 }

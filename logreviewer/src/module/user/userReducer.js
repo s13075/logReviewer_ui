@@ -36,6 +36,25 @@ const userReducer = (state = USER_INITIAL_STATE, action) => {
                 //user: action.payload,
             };
         }
+        case 'USER_LOGOUT':{
+            return{
+                ...state,
+                token: null,
+                user: null,
+                promise:{
+                    isPending: false,
+                    isFulfilled: false,
+                    isErrorOcurred: false
+                },
+                registerPromise:{
+                    isPending: false,
+                    isFulfilled: false,
+                    isErrorOcurred: false
+                }
+
+            }
+
+        }
         case 'USER_LOGIN_PENDING':{
             return {
                 ...state,

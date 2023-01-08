@@ -39,6 +39,15 @@ const justificationSlice = createSlice({
                 state.selectedJustificationPermissionsChangeList = action.payload.data;
                 state.statusJustificationPermissionsChangeList = 'idle';
             })
+            .addCase(putJustification.pending, (state, action) => {
+                state.statusJustificationPermissionsChangeList = 'loading';
+            })
+            .addCase(putJustification.fulfilled, (state, action) => {
+                state.selectedJustificationPermissionsChangeList = action.payload.data;
+                state.selectedJustification = null;
+                state.selectedJustificationPermissionsChangeList = [];
+                state.statusJustificationPermissionsChangeList = 'idle';
+            })
     }
 });
 
@@ -46,7 +55,6 @@ export const getJustificationList = createAsyncThunk(
     'justification/getJustificationList', async () => {
         try {
             const data = await getJustificationListService();
-  
             return await data;
         } catch (error) {
             console.log(error);
@@ -64,16 +72,15 @@ export const getJustificationPermissionsChangeList = createAsyncThunk(
 
 export const putJustification = createAsyncThunk(
     'justification/putJustification', 
-    async (justificationData, thunkAPI) => {
+    async (justificationData, {dispatch}) => {
         try {
-            console.log('justification/putJustification');
-            console.log(justificationData);
             const body = {
                 "curentStatus":justificationData[2],
                 "lastComment":justificationData[1]          
             }
-            console.log(body);
             const data = await putJustificationService(justificationData[0], body);
+
+            dispatch(getJustificationList())
 
             return await data;
         } catch (error) {

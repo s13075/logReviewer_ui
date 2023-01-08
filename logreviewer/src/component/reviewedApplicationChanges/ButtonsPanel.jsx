@@ -18,12 +18,10 @@ import { Box, Button } from '@mui/material';
 
 
 const ButtonsPanel = () => {
-
+    
     const dispatch = useDispatch();
-
     const _hasSelectedPermissionChanges = useSelector(hasSelectedPermissionChanges);
     const _hasSelectedPermissionRequest = useSelector(hasSelectedPermissionRequest);
-
 
     const handelSaveClick = () => {
         dispatch(postReconciliationRequested());
@@ -34,6 +32,7 @@ const ButtonsPanel = () => {
     const handelJustifyClick = () => {
         dispatch(postReconciliationJustified());
     }
+
     return (
         <Box>
             <Button
