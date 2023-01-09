@@ -10,15 +10,14 @@ import {
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link, useNavigate } from 'react-router-dom';
-import { getUserPromiseSelector, getUserObjectSelector, hasUserSelector, getUserRolesSelector } from '../../module/user/userSelector';
+import { useNavigate } from 'react-router-dom';
+import { getUserObjectSelector, hasUserSelector, getUserRolesSelector } from '../../module/user/userSelector';
 import { logoutAction } from '../../module/user/userAction';
 import { stringAvatar } from '../../module/user/userAvatar';
 
@@ -40,8 +39,6 @@ const localMenuOptions = [
     }
 ];
 
-
-
 const Header = () => {
 
     const dispatch = useDispatch();
@@ -51,7 +48,7 @@ const Header = () => {
     const user = useSelector(getUserObjectSelector);
     const hasUser = useSelector(hasUserSelector);
     const userRoles = useSelector(getUserRolesSelector);
-    
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -70,7 +67,7 @@ const Header = () => {
 
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <AdbIcon sx={{ mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
@@ -78,7 +75,7 @@ const Header = () => {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            display:  'flex' ,
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -86,31 +83,9 @@ const Header = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        LOGREVIEWER
                     </Typography>
-
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href=""
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        LOGO
-                    </Typography>
-
-
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         {
                             localMenuOptions.map(option => {
                                 if (option.roles.some(role => userRoles.includes(role))) {
@@ -152,7 +127,6 @@ const Header = () => {
                                 <MenuItem key='logout' onClick={handleCloseUserMenu}>
                                     <Typography textAlign="center">{LOGOUT}</Typography>
                                 </MenuItem>
-
                             </Menu>
                         </Box>
                     )}

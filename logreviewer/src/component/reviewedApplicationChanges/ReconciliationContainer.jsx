@@ -1,19 +1,20 @@
 import React from 'react'
-import { Box, Paper } from '@mui/material';
-import { SELECTED_ITEMS,
+import { Box, Alert } from '@mui/material';
+import {
+    SELECTED_ITEMS,
     NO_REQUEST_SELECTED,
     NO_CHANGES_SELECTED,
     CHANGES
 } from '../../config/names_PL';
 import { useSelector, useDispatch } from 'react-redux';
-import { hasSelectedPermissionChanges, 
-    hasSelectedPermissionRequest, 
-    selectedPermissionChanges, 
-    permissionChangeDeselected 
+import {
+    hasSelectedPermissionChanges,
+    hasSelectedPermissionRequest,
+    selectedPermissionChanges,
+    permissionChangeDeselected
 } from '../../module/reconciliation/reconciliationSlice';
 import RequestCard from './RequestCard';
 import PermissionsChangeList from './PermissionsChangeList';
-
 
 const ReconciliationContainer = () => {
     const dispatch = useDispatch();
@@ -27,29 +28,35 @@ const ReconciliationContainer = () => {
     };
 
     return (
-        <Paper>
+        <>
             <Box>{SELECTED_ITEMS}</Box>
             {_hasSelectedPermissionRequest && (
-                <RequestCard />
+                <Box mt={1} mr={1} ml={1} mb={1} >
+                    <RequestCard />
+                </Box>
             )}
             {!_hasSelectedPermissionRequest && (
-                <Box>{NO_REQUEST_SELECTED}</Box>
+                <Box mt={2}>
+                    <Alert severity="info">{NO_REQUEST_SELECTED}</Alert>
+                </Box>
             )}
 
             {!_hasSelectedPermissionChanges && (
-                <Box>{NO_CHANGES_SELECTED}</Box>
+                <Box mt={2}>
+                    <Alert severity="info">{NO_CHANGES_SELECTED}</Alert>
+                </Box>
             )}
 
             {_hasSelectedPermissionChanges && (
-                <Box height="40vh">
+                <Box height="30vh" mt={1} mr={1} ml={1}>
                     <PermissionsChangeList
                         permissionsChangeList={_selectedPermissionChanges}
-                        title={CHANGES}
+                        listTitle={CHANGES}
                         handleRowClick={handlePermissionChangeRowClick}
                     />
                 </Box>
             )}
-        </Paper>
+        </>
     )
 }
 

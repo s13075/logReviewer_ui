@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Alert } from '@mui/material'
 import React from 'react'
 import {
     JUSTIFICATION_HISTORY_LIST,
@@ -62,7 +62,7 @@ const JustificationHistoryList = ({ justificationHistoryList }) => {
     return (
         <Box>
             <Box> {JUSTIFICATION_HISTORY_LIST}</Box>
-            <Box> {NO_JUSTIFICATION_HISTORY_FIRST_QUERY}</Box>
+            <Alert severity="info">{NO_JUSTIFICATION_HISTORY_FIRST_QUERY}</Alert>
         </Box>
     )
 }

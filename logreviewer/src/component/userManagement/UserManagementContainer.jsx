@@ -33,9 +33,7 @@ const UserManagementContainer = () => {
 
   return (
     <Box>
-      <Typography variant='h4'>
-        {USER_MANAGEMENT_PAGE}
-      </Typography>
+      <Typography variant='h5'>{USER_MANAGEMENT_PAGE}</Typography>
       <UserSelectedItem />
 
 

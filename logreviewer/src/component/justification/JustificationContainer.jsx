@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Alert, Skeleton } from '@mui/material';
 import {
   JUSTIFICATION_PAGE,
-  ABOUT_PERMISSION_CHANGES
+  ABOUT_PERMISSION_CHANGES,
+  NO_JUSTIFICATION_SELECTED_TO_SHOW_CHANGES_FOR,
+  NO_JUSTIFICATION_NO_HISTORY
 } from '../../config/names_PL';
 import { getSelectedJustificationHistorySelector, getSelectedJustificationPermissionsChangeListSelector, isIdleJustificationPermissionsChangeList, isLoadingJustificationPermissionsChangeList, hasSelectedJustification, isIdleJustification, getJustificationList, getJustificationsListSelector, isLoadingJustification } from '../../module/justification/justificationSlice';
 import JystificationList from './JustificationList';
@@ -28,30 +30,44 @@ const JustificationContainer = () => {
   }, [dispatch]);
 
   return (
-    <Box >
-      <Typography height='5%'>{JUSTIFICATION_PAGE}</Typography>
-      <Box height="100vh" width='100vw' display='flex' flexDirection='column'>
-        <Box height="30vh" width='100vw'>
+    <>
+      <Typography variant='h5'>{JUSTIFICATION_PAGE}</Typography>
+      <Box width='100%' display='flex' flexDirection='column'>
+        <Box height="30vh" mt={2} ml={1} mr={1} >
           {_isLoadingJustification && (
-            <Box> LISTA WYJASNIENIEŃ się ładuje</Box>
+            <Box height="100%" width='100%'>
+              <Skeleton
+                variant="react"
+                animation="pulse"
+                height="100%"
+                width='100%'
+              />
+            </Box>
           )}
           {_isIdleJustification && (
             <JystificationList justificationList={justificationsList} />
 
           )}
         </Box>
-        <Box height="70vh" width='100vw' display='flex' flexDirection='ROW'>
-          <Box height="50vh" width='50vw'>
+        <Box display='flex' flexDirection='ROW'>
+          <Box height="50vh" width='50vw' mt={2} ml={1} mr={1} >
 
             {!_hasSelectedJustification && (
-              <Box>NO JUSTIFICATION selected TO SHOW CHANGES AVAILIBLE</Box>
+              <Alert severity="info">{NO_JUSTIFICATION_SELECTED_TO_SHOW_CHANGES_FOR}</Alert>
             )}
 
             {_hasSelectedJustification && (
               <Box height="50%" width='100%'>
 
                 {_isLoadingJustificationPermissionsChangeList && (
-                  <Box>JUSTIFICATION się ładuje</Box>
+                              <Box height="100%" width='100%'>
+                              <Skeleton
+                                variant="react"
+                                animation="pulse"
+                                height="100%"
+                                width='100%'
+                              />
+                            </Box>
                 )}
 
                 {_isIdleJustificationPermissionsChangeList && (
@@ -60,21 +76,23 @@ const JustificationContainer = () => {
                     permissionsChangeList={selectedJustificationPermissionsChangeListSelector}
                   />
                 )}
+                <Box mt={4}>
                 <JustificationPanel></JustificationPanel>
+                </Box>
               </Box>
             )}
           </Box>
-          <Box height="50vh" width='50vw'>
+          <Box height="50vh" width='50vw' mt={2} ml={1} mr={1}>
             {!_hasSelectedJustification && (
-              <Box>NO JUSTIFICATION selected TO SHOW CHANGES AVAILIBLE</Box>
-            )}
+              <Alert severity="info">{NO_JUSTIFICATION_NO_HISTORY}</Alert>
+           )}
             {_hasSelectedJustification && (
-              <JustificationHistoryList justificationHistoryList = {selectedJustificationHistory}/>
+              <JustificationHistoryList justificationHistoryList={selectedJustificationHistory} />
             )}
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   )
 }
 export default JustificationContainer

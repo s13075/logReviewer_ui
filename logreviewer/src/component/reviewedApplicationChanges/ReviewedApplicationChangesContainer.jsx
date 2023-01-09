@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, Paper, Grid } from '@mui/material';
+import { Box, Typography, Skeleton } from '@mui/material';
 import PermissionsChangeList from './PermissionsChangeList';
 import PermissionsRequestList from './PermissionsRequestList';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton } from '@mui/material';
+import {  } from '@mui/material';
 import {
   permissionsChangeListSelector,
   permissionsChangeListPromiseSelector
@@ -15,13 +15,11 @@ import {
 } from '../../module/permissionsRequest/permissionsRequestSelector';
 import {
   REVIEW_CHANGES_FOR,
-  NO_REQUEST_SELECTED,
   PERMISSION_CHANGES,
 } from '../../config/names_PL';
 import { getPermissionsRequestListAction } from '../../module/permissionsRequest/permissionsRequestAction';
 import ReconciliationContainer from './ReconciliationContainer';
 import { hasSelectedPermissionRequest, permissionChangeSelected } from '../../module/reconciliation/reconciliationSlice';
-import RequestCard from './RequestCard';
 import ButtonsPanel from './ButtonsPanel';
 
 
@@ -48,23 +46,23 @@ const ReviewedApplicationChangesContainer = () => {
   }, [dispatch]);
 
   return (
-    <Box >
-      <Typography height='5%'>{REVIEW_CHANGES_FOR}</Typography>
-      <Box height="95%" width='100%' display='flex' flexDirection='row'>
-        <Box height="100vh" width='50vw' display='flex' flexDirection='column'>
+    <>
+      <Typography variant='h5'>{REVIEW_CHANGES_FOR}</Typography>
+      <Box width='100%' display='flex' flexDirection='row'>
+        <Box width='53.5%' display='flex' flexDirection='column'>
           {!_hasSelectedPermissionRequest && (
-            <Box height="50vh" width='50vw'>
+            <Box height="50vh" mt={2} ml={1} mr={1} >
               {permissionsRequestListPromise.isPending && (
-                <Box ml={2}>
+                <Box height="100%" width='100%'>
                   <Skeleton
                     variant="react"
                     animation="pulse"
-                    height="50vh"
-                    width='50vw'
+                    height="100%"
+                    width='100%'
                   />
                 </Box>
               )}
-              {permissionsRequestListPromise.isFulfilled && (<PermissionsRequestList permissionsRequestList={permissionsRequestList} />)};
+              {permissionsRequestListPromise.isFulfilled && (<PermissionsRequestList permissionsRequestList={permissionsRequestList} />)}
               {permissionsRequestListPromise.isErrorOcurred && (
                 <div>
                   Error message...
@@ -72,20 +70,19 @@ const ReviewedApplicationChangesContainer = () => {
               )}
             </Box>
           )}
-          <Box height="50vh" width='50vw'>
-            <ReconciliationContainer />
+          <Box width='100%' mt={2} ml={1} mr={1}>
+            <ReconciliationContainer/>
           </Box>
         </Box>
-        <Box height="100vh" width='50vw' display='flex' flexDirection='column'>
-          <Box height="70vh" width='50vw'>
-
+        <Box width='46.5%' display='flex' flexDirection='column'>
+          <Box height="70vh" mt={2} ml={1} mr={1} >
             {permissionsChangeListPromise.isPending && (
-              <Box ml={2}>
+              <Box height="100%" width='100%'>
                 <Skeleton
                   variant="react"
                   animation="pulse"
-                  height="70vh"
-                  width='50vw'
+                  height="100%"
+                  width='100%'
                 />
               </Box>
             )}
@@ -95,7 +92,7 @@ const ReviewedApplicationChangesContainer = () => {
                 permissionsChangeList={permissionsChangeList}
                 listTitle={PERMISSION_CHANGES}
                 handleRowClick={permissionsChangesRowClick}
-              />)};
+              />)}
 
             {permissionsChangeListPromise.isErrorOcurred && (
               <div>
@@ -103,12 +100,12 @@ const ReviewedApplicationChangesContainer = () => {
               </div>
             )}
           </Box>
-          <Box height="30vh" width='50vw'>
+          <Box ml={3} mt={4}>
             <ButtonsPanel></ButtonsPanel>
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   )
 }
 

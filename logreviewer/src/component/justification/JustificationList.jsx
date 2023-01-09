@@ -36,13 +36,13 @@ const JustificationList = ({ justificationList }) => {
             renderCell: renderCellExpand,
         },
         { field: 'assignedReviewerEmploeeId', headerName: ASSIGNED_REVIEWER, width: 110 },
-        { field: 'assignedISAEmploeeId', headerName: ASSIGNED_ISA, width: 80 },
+        { field: 'assignedISAEmploeeId', headerName: ASSIGNED_ISA, width: 130 },
         { field: 'createdDate', headerName: CREATE_DATE, width: 160, valueGetter: dateFormater },
         { field: 'modifiedDate', headerName: MODIFY_DATE, width: 160, valueGetter: dateFormater }
     ]
 
     return (
-        <Box height='90%' width='90%'>
+        <Box height='90%'>
             <Box>{PENDING_JUSTIFICATION_LIST}</Box>
             <DataGrid
                 rows={rows}

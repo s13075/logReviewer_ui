@@ -44,7 +44,7 @@ const PermissionsRequestList = ({ permissionsRequestList }) => {
   }
 
   return (
-    <Box height='100%' width='100%'>
+    <Box height="90%">
       <Box>{PERMISSION_REQUESTS}</Box>
       {!_hasSelectedPermissionRequest && (<DataGrid
         rows={rows}

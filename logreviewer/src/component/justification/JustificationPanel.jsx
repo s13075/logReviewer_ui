@@ -7,16 +7,17 @@ import {
     PENDING_REVIEW,
     COMPLETE,
     SELECT_NEW_STATUS,
-    UNKNOWN
+    UNKNOWN,
+    PROVIDE_JUSTIFICATION
 } from '../../config/names_PL'
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import { Select, MenuItem, FormLabel, Button } from '@mui/material';
+import { Select, MenuItem, FormLabel, Button, Box } from '@mui/material';
 import { justificationValidationSchema } from '../../config/validation';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserObjectSelector } from '../../module/user/userSelector';
-import { getSelectedJustification, putJustification } from '../../module/justification/justificationSlice';
+import { getSelectedJustification, putJustification, justificationDeselected } from '../../module/justification/justificationSlice';
 
 function JustificationPanel() {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function JustificationPanel() {
         COMPLETE: COMPLETE
     };
 
+    //move to selector
     const availableStatuses = (currentStatus, roles) => {
         let statuses = [];
         if (roles.some(role => role.roleName === 'REVIEWED_ISA')) {
@@ -45,11 +47,25 @@ function JustificationPanel() {
         }
         return statuses.filter(status => status !== currentStatus);
     };
+
+    const handleCancelClick = () =>{
+        dispatch(justificationDeselected())
+
+    };
     
     const OptionMenu = ({ currentStatus, roles }) => {
         const statuses = availableStatuses(currentStatus, roles);
         return (
-            <Field name="curentStatus" as={Select} defaultValue={statuses[0]}>
+            <Field 
+                name="curentStatus" 
+                as={Select} 
+                defaultValue={statuses[0]}
+                sx={{
+                    width: '300px',
+                    marginTop: '1rem'
+                }}
+            >
+                <MenuItem value="none" disabled> {SELECT_NEW_STATUS}</MenuItem>
                 {statuses.map((status) => (
                     <MenuItem key={status} value={status}>
                         {options[status]}
@@ -60,17 +76,17 @@ function JustificationPanel() {
     };
     
     return (
+        <>
+        <Box>{PROVIDE_JUSTIFICATION}</Box>
+        <Box mt={1} >
         <Formik
             initialValues={{
                 comment: '',
-                curentStatus: ''
+                curentStatus: 'none',
             }}
             validationSchema={justificationValidationSchema}
             onSubmit={(values, { setSubmitting }) => {
                 // Submit the form
-                console.log(values);
-                console.log(values.comment);
-                console.log(values.curentStatus);
                 dispatch(putJustification([selectedJustification.id, values.comment, values.curentStatus]));
                 setSubmitting(false);
             }}
@@ -82,25 +98,40 @@ function JustificationPanel() {
                         name="comment"
                         label={COMMENT}
                         multiline
-                        rows={4}
+                        rows={3}
                         variant="outlined"
                         fullWidth
                     />
                     <OptionMenu currentStatus={selecedJustificationStatus} roles={userRoles} />
                     <Button
+                        ml={2}
                         type="submit"
                         variant="contained"
                         color="primary"
                         disabled={isSubmitting}
+                        sx={{
+                            marginLeft: '1rem'
+                        }}
                     >
                         {SAVE}
                     </Button>
-                    <Button type="button" variant="contained" color="secondary">
+                    <Button 
+                        ml={2}
+                        type="button" 
+                        variant="contained" 
+                        color="secondary"
+                        onClick={handleCancelClick}
+                        sx={{
+                            marginLeft: '1rem'
+                        }}
+                    >
                         {CANCEL}
                     </Button>
                 </Form>
             )}
         </Formik>
+        </Box>
+        </>
 
     )
 }

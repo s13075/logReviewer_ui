@@ -14,6 +14,8 @@ import {
     SURNAME_MINIMUM_LENGHT,
     COMMENT_MINIMUM_LENGHT,
     COMMENT_IS_REQUIRED,
+    INVALID_STATUS,
+    STATUS_IS_REQUIRED
 } from './names_PL';
 import * as yup from 'yup';
 
@@ -41,6 +43,10 @@ export const justificationValidationSchema = yup.object().shape({
         .string()
         .min(20,COMMENT_MINIMUM_LENGHT)
         .required(COMMENT_IS_REQUIRED),
+    curentStatus: yup
+        .string()
+        .oneOf(['PENDING_ADMIN', 'PENDING_REVIEW', 'COMPLETE'], INVALID_STATUS)
+        .required(STATUS_IS_REQUIRED),
 });
     // name: yup
     //     .string(ENTER_YOUR_NAME)

@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
             <Box>
                 <Header/>
             </Box>
-            <Box mt={2} ml={2}>
+            <Box mt={2} ml={2} mr={2} mb={2} >
                 {children} 
             </Box>
         </Box>
