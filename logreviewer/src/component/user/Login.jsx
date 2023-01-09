@@ -3,7 +3,7 @@ import { Box, Paper, Typography, TextField, Button } from '@mui/material';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../module/user/userAction';
-import { getUserPromiseSelector} from '../../module/user/userSelector';
+import { getUserPromiseSelector, getUserRolesSelector} from '../../module/user/userSelector';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { validationSchema } from '../../config/validation';
@@ -19,8 +19,21 @@ import {
 const Login = () => {
     const dispatch = useDispatch();
     const userPromise = useSelector(getUserPromiseSelector);
+    const userRoles = useSelector(getUserRolesSelector);
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
+
+    const redirectWhere = (userRoles) => {
+        const redirectPath = {
+            ADMIN: '/userManagement',
+            REVIEWER: '/review',
+            REVIEWER_MANAGER: '/review',
+            REVIEWED_ISA: '/justification'
+        };
+        
+        const foundRole = userRoles.find(role => redirectPath[role]);
+        return redirectPath[foundRole];
+    };
 
     useEffect(() => {
         if (userPromise.isErrorOcurred) {
@@ -28,10 +41,13 @@ const Login = () => {
                 variant:'error'
             });
         } else if (userPromise.isFulfilled) {
+
             enqueueSnackbar(LOGIN_SUCCESS_SNACKBAR,{
                 variant:'success'
             });
-            navigate('/review');
+
+            console.log(redirectWhere(userRoles));
+            navigate(redirectWhere(userRoles));
         }
     }, [userPromise,enqueueSnackbar,navigate])
 

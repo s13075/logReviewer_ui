@@ -79,12 +79,15 @@ const managedUserReducer = (state = MANAGED_USER_INITIAL_STATE, action) => {
             };
         }
         case EDIT_USER_LOCAL_ROLES:{
-            return{
-                ...state,
-                user: {...state.user,
-                    roles: action.payload,
-                }     
+            const newUser = {
+                ...state.user,
+                roles: action.payload,
             };
+              const newState = {
+                ...state,
+                user: newUser,
+            };
+            return newState;
         }
         case EDIT_USER_SAVE:{
             return{

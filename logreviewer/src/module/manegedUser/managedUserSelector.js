@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 
 export const getManagedUserSelector = (rootReducer) => rootReducer.managedUser.user;
 
@@ -10,3 +11,21 @@ export const getManagedUserEditPromiseSelector = (rootReducer) => rootReducer.ma
 export const getManagedUserListPromiseSelector = (rootReducer) => rootReducer.managedUser.userListPromise;
 
 export const getManagedUserRegisterPromiseSelector = (rootReducer) => rootReducer.managedUser.registerPromise;
+
+export const hasManagedUserSelector = createSelector(
+    [getManagedUserSelector],
+    (user) => user ? true : false
+);
+
+export const getManagedUserRolesSelector = createSelector(
+    [getManagedUserSelector],
+    (user) => user ? user.roles.map(role => role.roleName) : []
+);
+
+
+
+
+
+
+
+

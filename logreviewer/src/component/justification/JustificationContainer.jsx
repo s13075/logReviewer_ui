@@ -50,7 +50,7 @@ const JustificationContainer = () => {
           )}
         </Box>
         <Box display='flex' flexDirection='ROW'>
-          <Box height="50vh" width='50vw' mt={2} ml={1} mr={1} >
+          <Box height="50vh" width='50%' mt={2} ml={1} mr={1} >
 
             {!_hasSelectedJustification && (
               <Alert severity="info">{NO_JUSTIFICATION_SELECTED_TO_SHOW_CHANGES_FOR}</Alert>
@@ -82,7 +82,7 @@ const JustificationContainer = () => {
               </Box>
             )}
           </Box>
-          <Box height="50vh" width='50vw' mt={2} ml={1} mr={1}>
+          <Box height="50vh" width='50%' mt={2} ml={1} mr={1}>
             {!_hasSelectedJustification && (
               <Alert severity="info">{NO_JUSTIFICATION_NO_HISTORY}</Alert>
            )}

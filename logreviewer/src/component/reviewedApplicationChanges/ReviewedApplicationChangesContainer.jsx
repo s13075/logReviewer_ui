@@ -70,7 +70,7 @@ const ReviewedApplicationChangesContainer = () => {
               )}
             </Box>
           )}
-          <Box width='100%' mt={2} ml={1} mr={1}>
+          <Box width='100%' mt={0} ml={1} mr={1}>
             <ReconciliationContainer/>
           </Box>
         </Box>
@@ -92,7 +92,8 @@ const ReviewedApplicationChangesContainer = () => {
                 permissionsChangeList={permissionsChangeList}
                 listTitle={PERMISSION_CHANGES}
                 handleRowClick={permissionsChangesRowClick}
-              />)}
+              />
+              )}
 
             {permissionsChangeListPromise.isErrorOcurred && (
               <div>

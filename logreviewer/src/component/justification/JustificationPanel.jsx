@@ -98,7 +98,7 @@ function JustificationPanel() {
                         name="comment"
                         label={COMMENT}
                         multiline
-                        rows={3}
+                        rows={2}
                         variant="outlined"
                         fullWidth
                     />

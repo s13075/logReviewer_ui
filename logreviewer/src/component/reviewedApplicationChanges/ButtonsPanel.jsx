@@ -47,16 +47,23 @@ const ButtonsPanel = () => {
             <Button
                 type='reset'
                 variant='contained'
-                color='primary'
+                color='secondary'
                 onClick={handelCancelClick}
+                sx={{
+                    marginLeft:'1rem'
+                }}
             >
                 {CANCEL}
             </Button>
             <Button
                 type='submit'
                 variant='contained'
-                color='primary'
+                color='warning'
                 disabled={ _hasSelectedPermissionRequest || !_hasSelectedPermissionChanges}
+
+                sx={{
+                    marginLeft:'1rem'
+                }}
                 onClick={handelJustifyClick}
             >
                 {JUSTIFY}

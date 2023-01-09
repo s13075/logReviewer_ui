@@ -36,19 +36,19 @@ const ReconciliationContainer = () => {
                 </Box>
             )}
             {!_hasSelectedPermissionRequest && (
-                <Box mt={2}>
+                <Box mt={2} mr={2}>
                     <Alert severity="info">{NO_REQUEST_SELECTED}</Alert>
                 </Box>
             )}
 
             {!_hasSelectedPermissionChanges && (
-                <Box mt={2}>
+                <Box mt={2} mr={2}>
                     <Alert severity="info">{NO_CHANGES_SELECTED}</Alert>
                 </Box>
             )}
 
             {_hasSelectedPermissionChanges && (
-                <Box height="30vh" mt={1} mr={1} ml={1}>
+                <Box height="30vh" mt={1} mr={2} ml={1}>
                     <PermissionsChangeList
                         permissionsChangeList={_selectedPermissionChanges}
                         listTitle={CHANGES}

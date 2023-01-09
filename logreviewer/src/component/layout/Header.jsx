@@ -5,7 +5,8 @@ import {
     USER_MANAGEMENT_PAGE,
     REVIEW_PAGE,
     JUSTIFICATION_PAGE,
-    LOGOUT
+    LOGOUT,
+    USER_MENU
 } from '../../config/names_PL';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -103,7 +104,7 @@ const Header = () => {
                     </Box>
                     {hasUser && (
                         <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
+                            <Tooltip title= {USER_MENU}>
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar {...stringAvatar(user.name, user.surname)} />
                                 </IconButton>

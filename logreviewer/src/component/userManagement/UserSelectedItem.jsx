@@ -17,10 +17,7 @@ import {
     EMPLOEE_EMAIL,
     EMPLOEE_ROLES,
     EMPLOEE_PASSWORD,
-    ROLE_ADMIN,
-    ROLE_REVIEWER,
-    ROLE_REVIEWER_MANAGER,
-    ROLE_REVIEWED_ISA,
+    CONFIRM_YOUR_PASSWORD,
     SAVE,
     EDIT,
     ADD,
@@ -32,7 +29,7 @@ import {
     REVIEWER,
     REVIEWER_MANAGER
 } from '../../config/constants';
-import { validationSchema } from '../../config/validation';
+import { userManagementValidationSchema } from '../../config/validation';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerUser, unSelectUser, lockForUserRegister, lockForUserEdit, unlockForUserRegister, unlockForUserEdit, updateUserRoles, updateUser, getUserList } from '../../module/manegedUser/managedUserAction';
@@ -40,7 +37,9 @@ import {
     getManagedUserRegisterPromiseSelector,
     getManagedUserSelector,
     getManagedUserPromiseSelector,
-    getManagedUserEditPromiseSelector
+    getManagedUserEditPromiseSelector,
+    getManagedUserRolesSelector,
+    hasManagedUserSelector
 } from '../../module/manegedUser/managedUserSelector';
 import { stringAvatar } from '../../module/user/userAvatar';
 
@@ -48,14 +47,24 @@ const UserSelectedItem = () => {
 
     const dispatch = useDispatch();
 
+    const userPossibleRoles = [
+        'REVIEWER',
+        'REVIEWED_ISA',
+        'ADMIN',
+        'REVIEWER_MANAGER'
+    ]
+
     const managedUserPromise = useSelector(getManagedUserPromiseSelector);
     const managedUser = useSelector(getManagedUserSelector);
     const managedUserEditPromise = useSelector(getManagedUserEditPromiseSelector);
     const managedUserRegisterPromise = useSelector(getManagedUserRegisterPromiseSelector);
 
-    const existsManagedUser = () => {
-        return managedUser ? true : false;
-    }
+    const managedUserRoles = useSelector(getManagedUserRolesSelector);
+
+    // console.log('managedUserRoles');
+    // console.log(managedUserRoles);
+
+    const hasManagedUser = useSelector(hasManagedUserSelector)
 
     const formikValues = {
         name: managedUser ? managedUser.name : '',
@@ -63,52 +72,60 @@ const UserSelectedItem = () => {
         email: managedUser ? managedUser.email : '',
         emploeeId: managedUser ? managedUser.emploeeId : '',
         password: managedUser ? managedUser.password : '',
-        roles: managedUser ? managedUser.roles : []
+        passwordRepeat: managedUser ? managedUser.password : '',
+        roles: managedUser ? managedUserRoles : []
     };
 
     const formik = useFormik({
         initialValues: formikValues,
         enableReinitialize: true,
-        validationSchema: validationSchema,
+        validationSchema: userManagementValidationSchema,
         onSubmit: (values) => {
             if (!managedUserEditPromise.isSelected) {
-                dispatch(registerUser([
-                    values.name,
-                    values.surname,
-                    values.email,
-                    values.password,
-                    values.roles
-                ]));
+                dispatch(registerUser(values));
 
             } else {
-                dispatch(updateUser(values.emploeeId, [
-                    values.name,
-                    values.surname,
-                    values.email,
-                    values.password,
-                    values.roles
-                ]));
+                dispatch(updateUser(values.emploeeId, values));
 
             }
         }
     });
 
     const managedUserHasRole = (roleNamep) => {
+
+        // console.log('roleNamep');      
+        // console.log(roleNamep);
+        // console.log('formik.values.roles');
+        // console.log(formik.values.roles);
+
         let hasRole = false
         managedUser ?
-            formik.values.roles.some(role => role.roleName === roleNamep) ? hasRole = true : hasRole = false
+            formik.values.roles.some(role => role === roleNamep) ? hasRole = true : hasRole = false
             : hasRole = false
         return hasRole;
+
     };
 
-    const handleCheckboxClick = (event) => {
-        formik.values.roles.some(role => role.roleName === event.target.name) ? formik.values.roles.splice(formik.values.roles.indexOf(role => role.roleName === event.target.name), 1) : formik.values.roles.push({ roleName: event.target.name });
-        dispatch(updateUserRoles(formik.values.roles));
+    const handleCheckboxClick = (e, role) => {
 
+        if (e.target.checked) {
+            formik.setFieldValue('roles', [...formik.values.roles, role]);
+        } else {
+            formik.setFieldValue(
+                'roles',
+                formik.values.roles.filter(r => r !== role)
+            );
+
+            // if(formik.values.roles.some(role => role === event.target.name)){
+
+            //     formik.values.roles.splice(formik.values.roles.indexOf(role => role === event.target.name), 1)
+            // }else{
+            //     formik.values.roles.push(event.target.name);
+        }
+        // console.log(formik.values.roles)
     }
 
     const handelAddClick = () => {
-        console.log("AddClick");
         dispatch(unSelectUser());
         dispatch(lockForUserRegister());
 
@@ -143,21 +160,19 @@ const UserSelectedItem = () => {
                     width='100%'
                     height='100%'
                 >
-
                     <Stack
                         direction="row"
                         alignItems="center"
                         justifyContent="center"
                         width="7%"
                         spacing={4} >
-                        {existsManagedUser() && (
+                        {hasManagedUser && (
                             <Avatar
                                 width="100%"
                                 height="100%"
                                 {...stringAvatar(managedUser.name ? managedUser.name : 'X', managedUser.surname ? managedUser.surname : 'Y')} />
                         )}
                     </Stack>
-
                     <Box
                         display='flex'
                         width='30%'
@@ -240,22 +255,74 @@ const UserSelectedItem = () => {
                             placeholder={EMPLOEE_PASSWORD}
                             value={formik.values.password}
                             onChange={formik.handleChange}
-                            helperText={formik.touched.password && formik.errors.npassword}
+                            helperText={formik.touched.password && formik.errors.password}
                             error={formik.touched.password && Boolean(formik.errors.password)}
+                            type="password"
                             sx={{
                                 marginTop: '1rem'
                             }}
                             disabled={!insertsSelected()}
                         />
+                        <TextField
+                            name='passwordRepeat'
+                            id='passwordRepeat'
+                            label={CONFIRM_YOUR_PASSWORD}
+                            variant='outlined'
+                            size="small"
+                            placeholder={CONFIRM_YOUR_PASSWORD}
+                            value={formik.values.passwordRepeat}
+                            onChange={formik.handleChange}
+                            helperText={formik.touched.passwordRepeat && formik.errors.passwordRepeat}
+                            error={formik.touched.passwordRepeat && Boolean(formik.errors.passwordRepeat)}
+                            type="password"
+                            sx={{
+                                marginTop: '1rem'
+                            }}
+                            disabled={!insertsSelected()}
+                        />
+
                     </Box>
                     <Box
                         width='40%'
                         display='flex'
                     >{`${EMPLOEE_ROLES}:  `}
-                        <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(ADMIN)} name={ADMIN} onChange={handleCheckboxClick} />} label={ROLE_ADMIN} />
+                        {/* <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(ADMIN)} name={ADMIN} onChange={handleCheckboxClick} />} label={ROLE_ADMIN} />
                         <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWER)} name={REVIEWER} onChange={handleCheckboxClick} />} label={ROLE_REVIEWER} />
                         <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWER_MANAGER)} name={REVIEWER_MANAGER} onChange={handleCheckboxClick} />} label={ROLE_REVIEWER_MANAGER} />
                         <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWED_ISA)} name={REVIEWED_ISA} onChange={handleCheckboxClick} />} label={ROLE_REVIEWED_ISA} />
+                     */}
+                        {userPossibleRoles.map(role =>
+                            <FormControlLabel
+                                disabled={!insertsSelected()}
+                                label={role}
+                                key={role}
+                                control={
+
+                                    <Checkbox
+                                        checked={managedUserHasRole(role)}
+                                        name={role}
+                                        onChange={e => {
+                                            // Update the roles field in the form's values when the checkbox is clicked
+                                            console.log(e)
+                                            if (e.target.checked) {
+                                                formik.setFieldValue("roles", [...formik.values.roles, role]);
+                                            } else {
+                                                formik.setFieldValue(
+                                                    "roles",
+                                                    formik.values.roles.filter(r => r !== role)
+                                                );
+                                            }
+                                        }}
+                                    />
+                                }
+                            />
+                        )
+
+
+                        }
+
+
+
                     </Box>
                     {managedUserEditPromise.isSelected && (
                         <Box>
@@ -324,7 +391,7 @@ const UserSelectedItem = () => {
                                 type='reset'
                                 variant='contained'
                                 color='primary'
-                                disabled={!existsManagedUser()}
+                                disabled={!hasManagedUser}
                                 sx={{
                                     marginTop: '2rem'
                                 }}

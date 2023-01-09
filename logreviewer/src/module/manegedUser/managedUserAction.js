@@ -23,7 +23,6 @@ import {
     EDIT_USER_ERROR,
     CLEAR_USER,
     EDIT_USER_LOCAL_ROLES,
-    EDIT_USER_SAVE,
 } from '../actionTypes';
 
 
@@ -31,12 +30,25 @@ export const registerUser = (user) => async (dispatch) => {
 
     try {
         dispatch({ type: REGISTER_USER_PENDING });
-        const response = await registerUserService(user);
+        const convertedUser = {
+            ...user,
+            roles: user.roles.map(role => ({roleName: role}))
+        }
+        if (convertedUser.password && convertedUser.password.trim() === '*'.repeat(convertedUser.password.length)) {
+            delete convertedUser.password;
+            delete convertedUser.passwordRepeat;
+        }else{
+            delete convertedUser.passwordRepeat;
+        }
+        console.log(convertedUser);
+
+        const response = await registerUserService(convertedUser);
         dispatch({
             type: REGISTER_USER,
-            payload: response.data           
+            payload: response.data
         });
         dispatch({ type: REGISTER_USER_FULFILLED });
+        dispatch(getUserList());
     } catch (error) {
         console.log(error);
         dispatch({ type: REGISTER_USER_ERROR });
@@ -44,6 +56,7 @@ export const registerUser = (user) => async (dispatch) => {
 };
 export const updateUserRoles = (roles) => async (dispatch) => {
     try {
+
 
         dispatch({
             type: EDIT_USER_LOCAL_ROLES,
@@ -53,20 +66,33 @@ export const updateUserRoles = (roles) => async (dispatch) => {
         console.log(error);
         dispatch({ type: EDIT_USER_ERROR });
     }
-} 
+}
 
 export const updateUser = (emploeeId, user) => async (dispatch) => {
     try {
+        const convertedUser = {
+            ...user,
+            roles: user.roles.map(role => ({roleName: role}))
+        }
+        if (convertedUser.password && convertedUser.password.trim() === '*'.repeat(convertedUser.password.length)) {
+            delete convertedUser.password;
+            delete convertedUser.passwordRepeat;
+        }else{
+            delete convertedUser.passwordRepeat;
+        }
+        console.log(convertedUser);
+
         dispatch({ type: EDIT_USER_PENDING });
-        console.log(user);
-        const response = await updateUserService(emploeeId, user);
-        console.log(response);
+        const response = await updateUserService(emploeeId, convertedUser);
+
         await dispatch({
             type: EDIT_USER,
             payload: response.data,
-            
+
         });
         dispatch({ type: EDIT_USER_FULFILLED });
+
+        dispatch(getUserList());
     } catch (error) {
         console.log(error);
         dispatch({ type: EDIT_USER_ERROR });
@@ -93,19 +119,20 @@ export const selectUser = (empoleeId) => async (dispatch) => {
 
 export const unSelectUser = () => async (dispatch) => {
     const user = {
-        name:'',
-        surname:'',
-        email:'',
-        emploeeId:'XX0000',
+        name: '',
+        surname: '',
+        email: '',
+        emploeeId: 'XX0000',
         password: '',
         roles: []
     }
 
     try {
 
-        dispatch({ type: CLEAR_USER,
+        dispatch({
+            type: CLEAR_USER,
             payload: user
-        
+
         });
 
     } catch (error) {
