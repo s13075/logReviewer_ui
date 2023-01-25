@@ -54,6 +54,7 @@ const JustificationHistoryList = ({ justificationHistoryList }) => {
                             lineHeight: 1
                         }
                     }}
+                    hideFooter
                 />
             </Box>
         )

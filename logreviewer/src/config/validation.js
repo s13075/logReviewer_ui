@@ -55,6 +55,14 @@ export const userManagementValidationSchema = yup.object({
         .required(SURNAME_IS_REQUIRED),
 });
 
+export const reconciliationValidationSchema = yup.object().shape({
+    comment: yup
+        .string()
+        .min(20, COMMENT_MINIMUM_LENGHT)
+        .required(COMMENT_IS_REQUIRED),
+});
+
+
 export const justificationValidationSchema = yup.object().shape({
     comment: yup
         .string()

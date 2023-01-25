@@ -70,6 +70,7 @@ const PermissionsRequestList = ({ permissionsRequestList }) => {
             lineHeight: 1
           }
         }}
+        hideFooter
         onRowClick={handleRowClick}
       />
       )}

@@ -22,14 +22,14 @@ import {
     EDIT,
     ADD,
     CANCEL,
+    ROLE_ADMIN,
+    ROLE_REVIEWED_ISA,
+    ROLE_REVIEWER,
+    ROLE_REVIEWER_MANAGER,
 } from '../../config/names_PL';
 import {
-    ADMIN,
-    REVIEWED_ISA,
-    REVIEWER,
-    REVIEWER_MANAGER
+
 } from '../../config/constants';
-import { userManagementValidationSchema } from '../../config/validation';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerUser, unSelectUser, lockForUserRegister, lockForUserEdit, unlockForUserRegister, unlockForUserEdit, updateUserRoles, updateUser, getUserList } from '../../module/manegedUser/managedUserAction';
@@ -42,29 +42,29 @@ import {
     hasManagedUserSelector
 } from '../../module/manegedUser/managedUserSelector';
 import { stringAvatar } from '../../module/user/userAvatar';
+import { userManagementValidationSchema } from '../../config/validation';
+
 
 const UserSelectedItem = () => {
-
     const dispatch = useDispatch();
-
     const userPossibleRoles = [
-        'REVIEWER',
-        'REVIEWED_ISA',
-        'ADMIN',
-        'REVIEWER_MANAGER'
-    ]
+        ['REVIEWER', ROLE_REVIEWER],
+        ['REVIEWED_ISA', ROLE_REVIEWED_ISA],
+        ['ADMIN', ROLE_ADMIN],
+        ['REVIEWER_MANAGER', ROLE_REVIEWER_MANAGER],
+      ];
 
     const managedUserPromise = useSelector(getManagedUserPromiseSelector);
     const managedUser = useSelector(getManagedUserSelector);
     const managedUserEditPromise = useSelector(getManagedUserEditPromiseSelector);
     const managedUserRegisterPromise = useSelector(getManagedUserRegisterPromiseSelector);
-
     const managedUserRoles = useSelector(getManagedUserRolesSelector);
-
-    // console.log('managedUserRoles');
-    // console.log(managedUserRoles);
-
     const hasManagedUser = useSelector(hasManagedUserSelector)
+    
+
+    const insertsSelected = () => {
+        return managedUserEditPromise.isSelected || managedUserRegisterPromise.isSelected ? true : false;
+    };
 
     const formikValues = {
         name: managedUser ? managedUser.name : '',
@@ -76,7 +76,7 @@ const UserSelectedItem = () => {
         roles: managedUser ? managedUserRoles : []
     };
 
-    const formik = useFormik({
+const formik = useFormik({
         initialValues: formikValues,
         enableReinitialize: true,
         validationSchema: userManagementValidationSchema,
@@ -86,45 +86,56 @@ const UserSelectedItem = () => {
 
             } else {
                 dispatch(updateUser(values.emploeeId, values));
-
             }
         }
     });
 
-    const managedUserHasRole = (roleNamep) => {
-
-        // console.log('roleNamep');      
-        // console.log(roleNamep);
-        // console.log('formik.values.roles');
-        // console.log(formik.values.roles);
-
-        let hasRole = false
-        managedUser ?
-            formik.values.roles.some(role => role === roleNamep) ? hasRole = true : hasRole = false
-            : hasRole = false
-        return hasRole;
-
-    };
-
-    const handleCheckboxClick = (e, role) => {
-
-        if (e.target.checked) {
-            formik.setFieldValue('roles', [...formik.values.roles, role]);
-        } else {
-            formik.setFieldValue(
-                'roles',
-                formik.values.roles.filter(r => r !== role)
-            );
-
-            // if(formik.values.roles.some(role => role === event.target.name)){
-
-            //     formik.values.roles.splice(formik.values.roles.indexOf(role => role === event.target.name), 1)
-            // }else{
-            //     formik.values.roles.push(event.target.name);
+    const fields = [
+        {
+            name: 'emploeeId',
+            id: 'emploeeId',
+            label: EMPLOEE_ID,
+            placeholder: EMPLOEE_ID,
+            disabled: true,
+        },
+        {
+            name: 'name',
+            id: 'name',
+            label: EMPLOEE_NAME,
+            placeholder: EMPLOEE_NAME,
+            disabled: !insertsSelected(),
+        },
+        {
+            name: 'surname',
+            id: 'surname',
+            label: EMPLOEE_SURNAME,
+            placeholder: EMPLOEE_SURNAME,
+            disabled: !insertsSelected(),
+        },
+        {
+            name: 'email',
+            id: 'email',
+            label: EMPLOEE_EMAIL,
+            placeholder: EMPLOEE_EMAIL,
+            disabled: !insertsSelected(),
+        },
+        {
+            name: 'password',
+            id: 'password',
+            label: EMPLOEE_PASSWORD,
+            placeholder: EMPLOEE_PASSWORD,
+            type: 'password',
+            disabled: !insertsSelected(),
+        },
+        {
+            name: 'passwordRepeat',
+            id: 'passwordRepeat',
+            label: CONFIRM_YOUR_PASSWORD,
+            placeholder: CONFIRM_YOUR_PASSWORD,
+            type: 'password',
+            disabled: !insertsSelected(),
         }
-        // console.log(formik.values.roles)
-    }
-
+    ];
     const handelAddClick = () => {
         dispatch(unSelectUser());
         dispatch(lockForUserRegister());
@@ -142,17 +153,78 @@ const UserSelectedItem = () => {
         dispatch(unlockForUserRegister());
         dispatch(getUserList());
     };
+    const buttons = [{
+        condition: managedUserEditPromise.isSelected,
+        buttons: [
+            {
+                key:'SaveEdit',
+                type: 'submit',
+                color: 'primary',
+                label: SAVE,
+            },
+            {
+                key:'CancelEdit',
+                type: 'reset',
+                color: 'secondary',
+                label: CANCEL,
+                onClick: handelCancelEditedClick,
+            },
+        ],
+    },
+    {
+        condition: managedUserRegisterPromise.isSelected,
+        buttons: [
+            {
+                key:'SaveRegiser',
+                type: 'submit',
+                color: 'primary',
+                label: SAVE,
+            },
+            {
+                key:'CancelRegiser',
+                type: 'reset',
+                color: 'secondary',
+                label: CANCEL,
+                onClick: handelCancelAddedClick,
+            },
+        ],
+    },
+    {
+        condition: !insertsSelected(),
+        buttons: [
+            {
+                key: 'add',
+                type: 'reset',
+                color: 'success',
+                label: ADD,
+                onClick: handelAddClick,
+            },
+            {
+                key: 'edit',
+                type: 'reset',
+                color: 'warning',
+                label: EDIT,
+                onClick: handelEditClick,
+                disabled: !hasManagedUser,
+            },
+        ],
+    },
+    ];
 
-    const insertsSelected = () => {
-        return managedUserEditPromise.isSelected || managedUserRegisterPromise.isSelected ? true : false;
+    const managedUserHasRole = (roleNamep) => {
+        let hasRole = false
+        managedUser ?
+            formik.values.roles.some(role => role === roleNamep) ? hasRole = true : hasRole = false
+            : hasRole = false
+        return hasRole;
+
     };
-
 
     return (
         <form autoComplete="off" noValidate onSubmit={formik.handleSubmit}>
             <Paper sx={{
                 width: '100%',
-                height: 320,
+                height: 350,
             }}>
                 <Box
                     display="flex"
@@ -179,137 +251,47 @@ const UserSelectedItem = () => {
                         flexDirection='column'
                         alignContent='space-around'
                     >
-                        <TextField
-                            name='emploeeId'
-                            id='emploeeId'
-                            label={EMPLOEE_ID}
-                            variant='outlined'
-                            size="small"
-                            placeholder={EMPLOEE_ID}
-                            value={formik.values.emploeeId}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.emploeeId && formik.errors.emploeeId}
-                            error={formik.touched.emploeeId && Boolean(formik.errors.emploeeId)}
-                            disabled={true}
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-                        />
-                        <TextField
-                            name='name'
-                            id='name'
-                            label={EMPLOEE_NAME}
-                            variant='outlined'
-                            size="small"
-                            placeholder={EMPLOEE_NAME}
-                            value={formik.values.name}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.name && formik.errors.name}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            disabled={!insertsSelected()}
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-
-                        />
-                        <TextField
-                            name='surname'
-                            id='surname'
-                            label={EMPLOEE_SURNAME}
-                            variant='outlined'
-                            size="small"
-                            placeholder={EMPLOEE_SURNAME}
-                            value={formik.values.surname}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.surname && formik.errors.surname}
-                            error={formik.touched.surname && Boolean(formik.errors.surname)}
-                            disabled={!insertsSelected()}
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-
-                        />
-                        <TextField
-                            name='email'
-                            id='email'
-                            label={EMPLOEE_EMAIL}
-                            variant='outlined'
-                            size="small"
-                            placeholder={EMPLOEE_EMAIL}
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.email && formik.errors.email}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            disabled={!insertsSelected()}
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-
-                        />
-                        <TextField
-                            name='password'
-                            id='password'
-                            label={EMPLOEE_PASSWORD}
-                            variant='outlined'
-                            size="small"
-                            placeholder={EMPLOEE_PASSWORD}
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.password && formik.errors.password}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            type="password"
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-                            disabled={!insertsSelected()}
-                        />
-                        <TextField
-                            name='passwordRepeat'
-                            id='passwordRepeat'
-                            label={CONFIRM_YOUR_PASSWORD}
-                            variant='outlined'
-                            size="small"
-                            placeholder={CONFIRM_YOUR_PASSWORD}
-                            value={formik.values.passwordRepeat}
-                            onChange={formik.handleChange}
-                            helperText={formik.touched.passwordRepeat && formik.errors.passwordRepeat}
-                            error={formik.touched.passwordRepeat && Boolean(formik.errors.passwordRepeat)}
-                            type="password"
-                            sx={{
-                                marginTop: '1rem'
-                            }}
-                            disabled={!insertsSelected()}
-                        />
+                        {/* <UserForm/> */}
+                        {fields.map(field => (
+                            <TextField
+                                name={field.name}
+                                key={field.id}
+                                label={field.label}
+                                variant="outlined"
+                                size="small"
+                                placeholder={field.placeholder}
+                                value={formik.values[field.name]}
+                                onChange={formik.handleChange}
+                                helperText={formik.touched[field.name] && formik.errors[field.name]}
+                                error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
+                                disabled={field.disabled}
+                                sx={{
+                                    marginTop: '1rem',
+                                }}
+                                type={field.type}
+                            />
+                        ))}
 
                     </Box>
-                    <Box
-                        width='40%'
-                        display='flex'
-                    >{`${EMPLOEE_ROLES}:  `}
-                        {/* <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(ADMIN)} name={ADMIN} onChange={handleCheckboxClick} />} label={ROLE_ADMIN} />
-                        <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWER)} name={REVIEWER} onChange={handleCheckboxClick} />} label={ROLE_REVIEWER} />
-                        <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWER_MANAGER)} name={REVIEWER_MANAGER} onChange={handleCheckboxClick} />} label={ROLE_REVIEWER_MANAGER} />
-                        <FormControlLabel disabled={!insertsSelected()} control={<Checkbox checked={managedUserHasRole(REVIEWED_ISA)} name={REVIEWED_ISA} onChange={handleCheckboxClick} />} label={ROLE_REVIEWED_ISA} />
-                     */}
+                    <Box width='20%' display='flex' flexDirection='column' ml={5} mt={9}>
+                        <Box>{EMPLOEE_ROLES}</Box>
                         {userPossibleRoles.map(role =>
                             <FormControlLabel
                                 disabled={!insertsSelected()}
-                                label={role}
-                                key={role}
+                                label={role[1]}
+                                key={role[0]}
                                 control={
-
                                     <Checkbox
-                                        checked={managedUserHasRole(role)}
-                                        name={role}
+                                        checked={managedUserHasRole(role[0])}
+                                        name={role[0]}
                                         onChange={e => {
-                                            // Update the roles field in the form's values when the checkbox is clicked
                                             console.log(e)
                                             if (e.target.checked) {
-                                                formik.setFieldValue("roles", [...formik.values.roles, role]);
+                                                formik.setFieldValue("roles", [...formik.values.roles, role[0]]);
                                             } else {
                                                 formik.setFieldValue(
                                                     "roles",
-                                                    formik.values.roles.filter(r => r !== role)
+                                                    formik.values.roles.filter(r => r !== role[0])
                                                 );
                                             }
                                         }}
@@ -317,90 +299,40 @@ const UserSelectedItem = () => {
                                 }
                             />
                         )
-
-
                         }
-
-
-
                     </Box>
-                    {managedUserEditPromise.isSelected && (
-                        <Box>
-                            <Button
-                                type='submit'
-                                variant='contained'
-                                color='primary'
+                    {buttons.map(buttonSet => {
+                        if (buttonSet.condition) {
+                            return (
+                                <Box
                                 sx={{
-                                    marginTop: '2rem'
-                                }}
-                            >
-                                {SAVE}ed
-                            </Button>
-                            <Button
-                                type='reset'
-                                variant='contained'
-                                color='primary'
-                                sx={{
-                                    marginTop: '2rem'
-                                }}
-                                onClick={handelCancelEditedClick}
-                            >
-                                {CANCEL}ed
-                            </Button>
-                        </Box>
-                    )}
-                    {managedUserRegisterPromise.isSelected && (
-                        <Box>
-                            <Button
-                                type='submit'
-                                variant='contained'
-                                color='primary'
-                                sx={{
-                                    marginTop: '2rem'
-                                }}
-                            >
-                                {SAVE}
-                            </Button>
-                            <Button
-                                type='reset'
-                                variant='contained'
-                                color='primary'
-                                sx={{
-                                    marginTop: '2rem'
-                                }}
-                                onClick={handelCancelAddedClick}
-                            >
-                                {CANCEL}
-                            </Button>
-                        </Box>
-                    )}
-                    {!insertsSelected() && (
-                        <Box>
-                            <Button
-                                type='reset'
-                                variant='contained'
-                                color='primary'
-                                sx={{
-                                    marginTop: '2rem'
-                                }}
-                                onClick={handelAddClick}
-                            >
-                                {ADD}
-                            </Button>
-                            <Button
-                                type='reset'
-                                variant='contained'
-                                color='primary'
-                                disabled={!hasManagedUser}
-                                sx={{
-                                    marginTop: '2rem'
-                                }}
-                                onClick={handelEditClick}
-                            >
-                                {EDIT}
-                            </Button>
-                        </Box>
-                    )}
+                                    height:'100%',
+                                    display: 'flex',
+                                    flexDirection:'column',
+                                    justifyContent: 'center',
+                                  }}
+                                >
+                                    {buttonSet.buttons.map(button => (
+                                        <Button
+                                            key={button.key}
+                                            type={button.type}
+                                            variant='contained'
+                                            color={button.color}
+                                            sx={{
+                                                marginLeft: '1rem',
+                                                marginTop: '1rem',
+                                                fontSize: '1.2rem',
+                                            }}
+                                            onClick={button.onClick}
+                                            disabled={button.disabled}
+                                        >
+                                            {button.label}
+                                        </Button>
+                                    ))}
+                                </Box>
+                            );
+                        }
+                    })}
                 </Box>
             </Paper>
         </form>

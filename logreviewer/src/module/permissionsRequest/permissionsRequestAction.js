@@ -5,14 +5,14 @@ import{
     PERMISSIONS_REQUEST_FULFILLED,
     PERMISSIONS_REQUEST_ERROR
 } from '../actionTypes';
-import { getAllPermissionsRequestService } from '../services';
+import { getApplicationPermissionsRequestService } from '../services';
 
-export const getPermissionsRequestListAction = () => async (dispatch) => {
+export const getPermissionsRequestListAction = (applicationId) => async (dispatch) => {
   try {
 
     console.log(PERMISSIONS_REQUEST_PENDING);
     dispatch({type: PERMISSIONS_REQUEST_PENDING});
-    const response = await getAllPermissionsRequestService();
+    const response = await getApplicationPermissionsRequestService(applicationId);
      dispatch({
         type: PERMISSIONS_REQUEST_FETCHED,
         payload: response.data,

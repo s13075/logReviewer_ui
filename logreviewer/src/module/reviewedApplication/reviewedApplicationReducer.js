@@ -4,12 +4,19 @@ export const INITIAL_REVIEWED_APPLICATIONS_REDUCER_STATE = {
         isPending: false,
         isFulfilled: false,
         isErrorOcurred: false
-    }
+    },
+    selectedApplication: null
 }
 
 
 const reviewedApplicationReducer = (state = INITIAL_REVIEWED_APPLICATIONS_REDUCER_STATE, action) =>{
     switch(action.type) {
+        case 'REVEIWEDAPPLICATIONSELECTED' :{
+            return {
+                ...state,
+                selectedApplication: action.payload,
+            }
+        }
         case 'REVEIWEDAPPLICATIONSLIST' :{
             return {
                 ...state,

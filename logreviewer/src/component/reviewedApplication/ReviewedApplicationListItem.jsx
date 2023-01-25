@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Paper, Avatar, Typography } from '@mui/material';
-
+import { selectApplicationAction } from '../../module/reviewedApplication/reviewedApplicationAction';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -18,10 +19,19 @@ const propTypes = {
     }).isRequired,
 };
 
+
 const ReviewedApplicationListItem = ({ reviewedApplication }) => {
-    const navigate = useNavigate();
+     const dispatch = useDispatch();
+     const navigate = useNavigate();
+
+    const handleApplicationBoxClick = () => {
+        dispatch(selectApplicationAction(reviewedApplication));
+        navigate('/reviewChanges');
+
+    }
+
     return (
-        <Box mb={2} onClick={() => navigate('/reviewChanges')}>
+        <Box mb={2} onClick={() => handleApplicationBoxClick()}>
             <Paper 
                 elevation = {2}
                 sx={{
@@ -35,13 +45,11 @@ const ReviewedApplicationListItem = ({ reviewedApplication }) => {
                         width: '180px',
                         height: '200px'
                     }}
-                    onClick={() => navigate('/reviewChanges')}
                     >
                 {reviewedApplication.name}
                 </Avatar>
                 <Box
                     ml ={1}
-                    onClick={() => navigate('/reviewChanges')}
                     >
                     <Typography>{reviewedApplication.name}</Typography>
                     <Typography>{reviewedApplication.id}</Typography>

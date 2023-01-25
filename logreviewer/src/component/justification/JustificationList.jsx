@@ -31,8 +31,9 @@ const JustificationList = ({ justificationList }) => {
     const rows = justificationList;
     const columns = [
         { field: 'id', headerName: JUSTIFICATION_ID, width: 180 },
-        { field: 'curentStatus', headerName: CURENT_STATUS, width: 220, valueGetter: statusGetter,},
-        { field: 'lastComment', headerName: LAST_COMMENT, width: 250,
+        { field: 'curentStatus', headerName: CURENT_STATUS, width: 220, valueGetter: statusGetter, },
+        {
+            field: 'lastComment', headerName: LAST_COMMENT, width: 250,
             renderCell: renderCellExpand,
         },
         { field: 'assignedReviewerEmploeeId', headerName: ASSIGNED_REVIEWER, width: 110 },
@@ -65,13 +66,12 @@ const JustificationList = ({ justificationList }) => {
                         lineHeight: 1
                     }
                 }}
+                hideFooter
                 onRowClick={handleRowClick}
             />
         </Box>
     )
 
 }
-
-
 
 export default JustificationList

@@ -9,7 +9,7 @@ import {
     SELECT_NEW_STATUS,
     UNKNOWN,
     PROVIDE_JUSTIFICATION
-} from '../../config/names_PL'
+} from '../../config/names_PL';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
 import { Select, MenuItem, FormLabel, Button, Box } from '@mui/material';
@@ -33,7 +33,6 @@ function JustificationPanel() {
         COMPLETE: COMPLETE
     };
 
-    //move to selector
     const availableStatuses = (currentStatus, roles) => {
         let statuses = [];
         if (roles.some(role => role.roleName === 'REVIEWED_ISA')) {
@@ -50,7 +49,6 @@ function JustificationPanel() {
 
     const handleCancelClick = () =>{
         dispatch(justificationDeselected())
-
     };
     
     const OptionMenu = ({ currentStatus, roles }) => {
@@ -86,7 +84,6 @@ function JustificationPanel() {
             }}
             validationSchema={justificationValidationSchema}
             onSubmit={(values, { setSubmitting }) => {
-                // Submit the form
                 dispatch(putJustification([selectedJustification.id, values.comment, values.curentStatus]));
                 setSubmitting(false);
             }}

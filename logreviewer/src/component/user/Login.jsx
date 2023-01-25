@@ -29,8 +29,7 @@ const Login = () => {
             REVIEWER: '/review',
             REVIEWER_MANAGER: '/review',
             REVIEWED_ISA: '/justification'
-        };
-        
+        };       
         const foundRole = userRoles.find(role => redirectPath[role]);
         return redirectPath[foundRole];
     };
@@ -107,6 +106,7 @@ const Login = () => {
                         sx={{
                             marginTop: '2rem'
                         }}
+                        type= 'password'
                     />
                     <Button
                         type='submit'

@@ -15,13 +15,19 @@ const ReviewedApplicationFilter = () => {
     return (
         <Box sx={{
             width: '20%',
-            height: '500px'
+            height: '170px'
         }}>
             <Paper sx={{
                 width: '100%',
                 height: '100%'
             }}>
-                <Typography> {APPLICATION_SEARCH}</Typography>
+                <Typography
+                    sx={{
+                        marginLeft:'1rem',
+                    }}
+                > 
+                {APPLICATION_SEARCH}
+                </Typography>
                 <Box>
                     <TextField
                         placeholder= {ENTER_APPLICATION_NAME}
@@ -29,12 +35,20 @@ const ReviewedApplicationFilter = () => {
                         label= {ENTER_APPLICATION_NAME}
                         variant='outlined'
                         value={searchText}
+                        sx={{
+                            marginLeft:'1rem',
+                            marginTop:'1rem'
+                        }}
                         onChange={(event) => setSearchText(event.target.value)}
                     />
                 </Box>
                 <Button
                     variant='contained'
                     color='primary'
+                    sx={{
+                        marginLeft:'1rem',
+                        marginTop:'1rem'
+                    }}
                     onClick={() => {
                         console.log('called');
                         dispatch(getReviewedApplicationByNameAction(searchText));

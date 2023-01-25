@@ -2,11 +2,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postReconciliationRequestedService, postReconciliationJustifiedService} from '../services';
 import { createSelector } from 'reselect';
 import {ALERT_UNMATCHED_ISA} from '../../config/names_PL';
+import { readdPermisionsChangeToList, removePermisionsChangeFromList } from '../../module/permissionsChange/permissionsChangeAction';
+import { useDispatch } from 'react-redux';
+
+
 
 const initialState = {
     permissionRequest:null,
     permissionChanges:[],
-    status: 'idle'
+    status: 'idle',
+    reconcile: false
 }
 
 export const postReconciliationRequested = createAsyncThunk(
@@ -31,9 +36,11 @@ export const postReconciliationJustified = createAsyncThunk(
     'reconciliation/postReconciliationJustified', async(arg,{ getState }) =>{
     const state = getState()
     try {
-        const passedpermissionChanges = state.reconciliation.permissionChanges;
+        const passedPermissionChanges = state.reconciliation.permissionChanges;
         const body = {
-            "ofPermisionChanges":passedpermissionChanges,
+            "ofPermisionChanges":passedPermissionChanges,
+            "lastComment": arg,
+            "curentStatus": 'PENDING_ADMIN',
             "permissionsRequest":null          
         }
         const response = await postReconciliationJustifiedService(body);
@@ -43,6 +50,8 @@ export const postReconciliationJustified = createAsyncThunk(
       }
 
 })
+
+
 
 const reconciliationSlice = createSlice({
     name: 'reconciliation',
@@ -56,23 +65,32 @@ const reconciliationSlice = createSlice({
         },
         permissionChangeSelected(state, action){
             if(!state.permissionChanges.some((change) => change.id === action.payload.id)){
+                
+
                 if(!state.permissionChanges.some((change) => 
                 change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId) &&
                 state.permissionChanges.length !== 0){
                     alert(ALERT_UNMATCHED_ISA);
                 }else{
-                    state.permissionChanges.push(action.payload)
+                    removePermisionsChangeFromList(action.payload);
+                    state.permissionChanges.push(action.payload);
                 }              
             }
         },
         permissionChangeDeselected(state, action){
-            state.permissionChanges = state.permissionChanges.filter((change) => change.id !== action.payload.id)
+            state.permissionChanges = state.permissionChanges.filter((change) => change.id !== action.payload.id);
+            readdPermisionsChangeToList(action.payload);
+            
         },
         permissionChangeClearSelections(state,action){
             state.permissionRequest=null;
             state.permissionChanges=[];
-            state.status= 'idle';
-        }
+            state.status = 'idle';
+            state.reconcile = false;
+        },
+        reconcilePermissionChange(state, action){
+            state.reconcile = true;
+        },
     },
     extraReducers: builder =>{
         builder
@@ -83,6 +101,7 @@ const reconciliationSlice = createSlice({
                 state.permissionRequest=null;
                 state.permissionChanges=[];
                 state.status= 'idle';
+                state.reconcile = false;
             })
             .addCase(postReconciliationJustified.pending, (state, action) =>{
                 state.status = 'saving';
@@ -91,6 +110,7 @@ const reconciliationSlice = createSlice({
                 state.permissionRequest=null;
                 state.permissionChanges=[];
                 state.status= 'idle';
+                state.reconcile = false;
             })
     }
 })
@@ -101,10 +121,12 @@ export const {
     permissionChangeClearSelections, 
     permissionChangeDeselected, 
     permissionRequestDeselected,
+    reconcilePermissionChange,
 } = reconciliationSlice.actions
 
 export const selectedPermissionRequest = (state) => state.reconciliation.permissionRequest;
 export const selectedPermissionChanges = (state) => state.reconciliation.permissionChanges;
+export const isReconcileSelector = (state) => state.reconciliation.reconcile;
 
 export const hasSelectedPermissionChanges = createSelector(
     [selectedPermissionChanges],

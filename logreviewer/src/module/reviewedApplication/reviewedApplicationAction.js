@@ -19,9 +19,7 @@ export const getReviewedApplicationAction =() => async (dispatch) => {
 export const getReviewedApplicationByNameAction = (applicationName) => async (dispatch) => {
     try{
         dispatch({type: 'REVEIWEDAPPLICATIONSLISTPENDING'});
-        console.log('called REVEIWEDAPPLICATIONSLIST');
         const reviewedApplications = await getReviewedApplicationByNameService(applicationName);
-        console.log(reviewedApplications);
         dispatch({
             type: 'REVEIWEDAPPLICATIONSBYNAMELIST',
             payload: reviewedApplications.data,
@@ -32,4 +30,14 @@ export const getReviewedApplicationByNameAction = (applicationName) => async (di
         console.log(error);
         dispatch({type: 'REVEIWEDAPPLICATIONSLISTERROR'});
     }
+}
+
+export const selectApplicationAction = (application) => async (dispatch) => {
+
+
+        dispatch({
+            type: 'REVEIWEDAPPLICATIONSELECTED',
+            payload:application     
+        });
+
 }

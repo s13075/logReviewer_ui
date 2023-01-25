@@ -22,6 +22,12 @@ export const getManagedUserRolesSelector = createSelector(
     (user) => user ? user.roles.map(role => role.roleName) : []
 );
 
+export const insertsSelectedSelector = createSelector(
+    [getManagedUserEditPromiseSelector, getManagedUserRegisterPromiseSelector],
+    (managedUserEditPromise, managedUserRegisterPromise) =>
+      managedUserEditPromise.isSelected || managedUserRegisterPromise.isSelected
+  );
+
 
 
 

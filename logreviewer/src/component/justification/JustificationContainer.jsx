@@ -60,14 +60,14 @@ const JustificationContainer = () => {
               <Box height="50%" width='100%'>
 
                 {_isLoadingJustificationPermissionsChangeList && (
-                              <Box height="100%" width='100%'>
-                              <Skeleton
-                                variant="react"
-                                animation="pulse"
-                                height="100%"
-                                width='100%'
-                              />
-                            </Box>
+                  <Box height="100%" width='100%'>
+                    <Skeleton
+                      variant="react"
+                      animation="pulse"
+                      height="100%"
+                      width='100%'
+                    />
+                  </Box>
                 )}
 
                 {_isIdleJustificationPermissionsChangeList && (
@@ -77,7 +77,7 @@ const JustificationContainer = () => {
                   />
                 )}
                 <Box mt={4}>
-                <JustificationPanel></JustificationPanel>
+                  <JustificationPanel></JustificationPanel>
                 </Box>
               </Box>
             )}
@@ -85,7 +85,7 @@ const JustificationContainer = () => {
           <Box height="50vh" width='50%' mt={2} ml={1} mr={1}>
             {!_hasSelectedJustification && (
               <Alert severity="info">{NO_JUSTIFICATION_NO_HISTORY}</Alert>
-           )}
+            )}
             {_hasSelectedJustification && (
               <JustificationHistoryList justificationHistoryList={selectedJustificationHistory} />
             )}

@@ -10,7 +10,7 @@ const propTypes = {
 
 const Layout = ({ children }) => {
     return (
-        <Box minWidth={1450} minHeight={700} overflow="scroll" width="100vw" height="100vh" >
+        <Box minWidth={1450} minHeight={900} overflow="scroll" width="100vw" height="100vh" >
             <Box>
                 <Header/>
             </Box>

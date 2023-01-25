@@ -9,8 +9,12 @@ import {
     postReconciliationRequested, 
     permissionChangeClearSelections,
     hasSelectedPermissionChanges,
-    hasSelectedPermissionRequest
+    hasSelectedPermissionRequest,
+    reconcilePermissionChange,
+    isReconcileSelector,
+    selectedPermissionChanges
 } from '../../module/reconciliation/reconciliationSlice';
+import { readdPermisionsChangeToList } from '../../module/permissionsChange/permissionsChangeAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Button } from '@mui/material';
 
@@ -22,15 +26,19 @@ const ButtonsPanel = () => {
     const dispatch = useDispatch();
     const _hasSelectedPermissionChanges = useSelector(hasSelectedPermissionChanges);
     const _hasSelectedPermissionRequest = useSelector(hasSelectedPermissionRequest);
+    const _selectedPermissionChanges =  useSelector(selectedPermissionChanges);
+    const isReconcile = useSelector(isReconcileSelector);
+
 
     const handelSaveClick = () => {
         dispatch(postReconciliationRequested());
     };
     const handelCancelClick = () => {
         dispatch(permissionChangeClearSelections());
+        dispatch(readdPermisionsChangeToList(_selectedPermissionChanges));
     };
     const handelJustifyClick = () => {
-        dispatch(postReconciliationJustified());
+        dispatch(reconcilePermissionChange());
     }
 
     return (
@@ -48,6 +56,7 @@ const ButtonsPanel = () => {
                 type='reset'
                 variant='contained'
                 color='secondary'
+                disabled={ isReconcile }
                 onClick={handelCancelClick}
                 sx={{
                     marginLeft:'1rem'
@@ -59,7 +68,7 @@ const ButtonsPanel = () => {
                 type='submit'
                 variant='contained'
                 color='warning'
-                disabled={ _hasSelectedPermissionRequest || !_hasSelectedPermissionChanges}
+                disabled={ _hasSelectedPermissionRequest || !_hasSelectedPermissionChanges || isReconcile}
 
                 sx={{
                     marginLeft:'1rem'

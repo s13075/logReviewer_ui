@@ -3,7 +3,9 @@ import{
     PERMISSIONS_CHANGE_FETCHED,
     PERMISSIONS_CHANGE_PENDING,
     PERMISSIONS_CHANGE_FULFILLED,
-    PERMISSIONS_CHANGE_ERROR
+    PERMISSIONS_CHANGE_ERROR,
+    PERMISSIONS_CHANGE_REMOVE,
+    PERMISSIONS_CHANGE_READD
 } from '../actionTypes';
 
 export const PERMISSIONS_CHANGE_INITIAL_STATE= {
@@ -23,7 +25,7 @@ const permissionsChangeReducer = (state = PERMISSIONS_CHANGE_INITIAL_STATE, acti
             return{
                 ...state,
                 permissionsChangeList: action.payload,
-            };
+            }
         }
         case PERMISSIONS_CHANGE_PENDING:{
             return {
@@ -35,6 +37,19 @@ const permissionsChangeReducer = (state = PERMISSIONS_CHANGE_INITIAL_STATE, acti
             return {
                 ...state,
                 listPromise: {isPending: false, isFulfilled: true, isErrorOcurred: false}
+            }
+        }
+        case PERMISSIONS_CHANGE_REMOVE:{
+            return {
+                ...state,
+                permissionsChangeList: state.permissionsChangeList.filter((change) => change.id !== action.payload.id)
+            }
+        }
+        case PERMISSIONS_CHANGE_READD:{
+
+            return {
+                ...state,
+                permissionsChangeList: state.permissionsChangeList.concat(action.payload)
             }
         }
         case PERMISSIONS_CHANGE_ERROR:{

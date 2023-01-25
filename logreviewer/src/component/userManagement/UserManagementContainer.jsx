@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton } from '@mui/material';
 import { getUserList } from '../../module/manegedUser/managedUserAction';
-import { 
-  getManagedUserListSelector, 
-  getManagedUserListPromiseSelector, 
+import {
+  getManagedUserListSelector,
+  getManagedUserListPromiseSelector,
   getManagedUserEditPromiseSelector,
   getManagedUserRegisterPromiseSelector
- } from '../../module/manegedUser/managedUserSelector';
+} from '../../module/manegedUser/managedUserSelector';
 import { Box, Typography } from '@mui/material';
 import UserList from './UserList';
 import UserSelectedItem from './UserSelectedItem';
@@ -29,7 +29,7 @@ const UserManagementContainer = () => {
 
   const insertsSelected = () => {
     return managedUserEditPromise.isSelected || managedUserRegisterPromise.isSelected ? true : false;
-};
+  };
 
   return (
     <Box>
@@ -38,21 +38,21 @@ const UserManagementContainer = () => {
 
 
       {allUsersPromise.isPending && (
-        <Box ml={2}>
+        <Box height="100%" width='100%'>
           <Skeleton
             variant="react"
             animation="pulse"
-            width="80%"
-            height="200px"
+            height="100%"
+            width='100%'
           />
         </Box>
       )}
       {allUsersPromise.isFulfilled && (
-        <>
+        <Box mt={1}>
           {!insertsSelected() && (
             <UserList allUsers={allUsers} />
           )}
-        </>
+        </Box>
       )}
       {allUsersPromise.isErrorOcurred && (
         <div>

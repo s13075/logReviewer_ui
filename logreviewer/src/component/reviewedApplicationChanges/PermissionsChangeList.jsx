@@ -61,7 +61,8 @@ const PermissionsChangeList = ({ permissionsChangeList, listTitle, handleRowClic
             whiteSpace: "break-spaces",
             lineHeight: 1
           }
-        }}
+        }}    
+        hideFooter
         onRowClick={handleRowClick}
       />
     </Box>
