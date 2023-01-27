@@ -13,10 +13,14 @@ import ReviewedApplicationChangesContainer from './reviewedApplicationChanges/Re
 import UserManagementContainer from './userManagement/UserManagementContainer';
 import JustificationContainer from './justification/JustificationContainer';
 import { SnackbarProvider } from 'notistack';
+import { getUserTokenSelector, getUserRolesSelector } from '../module/user/userSelector';
+import { useSelector } from 'react-redux';
 import RoutesProtector from './aurhorization/RoutesProtector';
 
 
 function App() {
+  const userRoles = useSelector(getUserRolesSelector);
+  const token = useSelector(getUserTokenSelector);
 
  // token={token} userRoles={userRoles}
   return (
@@ -25,7 +29,7 @@ function App() {
           <Layout>
             <Routes>
               <Route exact path='/login' element={<Login />} />
-              <Route element={<RoutesProtector/>}>
+              <Route element={<RoutesProtector token={token} userRoles={userRoles} />}>
                 <Route exact path='/review' element={<ReviewedApplicationContainer />} />
                 <Route exact path='/reviewChanges' element={<ReviewedApplicationChangesContainer />} />
                 <Route exact path='/userManagement' element={<UserManagementContainer />} />

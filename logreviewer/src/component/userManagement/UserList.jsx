@@ -4,7 +4,6 @@ import {
     EMPLOEE_NAME,
     EMPLOEE_SURNAME,
     EMPLOEE_EMAIL,
-    EMPLOEE_ROLES,
     ROLE_ADMIN,
     ROLE_REVIEWER,
     ROLE_REVIEWER_MANAGER,
@@ -20,9 +19,6 @@ import { DataGrid, plPL } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../module/manegedUser/managedUserAction';
 import {
-    // getManagedUserRegisterPromiseSelector,
-    // getManagedUserSelector,
-    // getManagedUserPromiseSelector,
     getManagedUserEditPromiseSelector
 } from '../../module/manegedUser/managedUserSelector';
 
@@ -30,15 +26,6 @@ const UserList = (allUsers) => {
     const dispatch = useDispatch();
 
     const managedUserEditProise = useSelector(getManagedUserEditPromiseSelector);
-
-    function getRoleNames(params){
-        const roles = params.row.roles;
-        let rolesStringified = "";
-        roles.forEach(role =>{
-            rolesStringified+= `${role.roleName} `;
-        });
-        return rolesStringified;
-    }
 
     const userIsAdmin = (params) => {    
         return params.row.roles.some(role => role.roleName === ADMIN) ? true : false;

@@ -8,11 +8,7 @@ import {
     ASSIGNED_REVIEWER,
     ASSIGNED_ISA,
     CREATE_DATE,
-    MODIFY_DATE,
-    PENDING_ADMIN,
-    PENDING_REVIEW,
-    COMPLETE,
-    UNKNOWN
+    MODIFY_DATE
 } from '../../config/names_PL';
 import { DataGrid, plPL } from '@mui/x-data-grid';
 import { renderCellExpand, statusGetter, dateFormater } from './renderCelllExpand';

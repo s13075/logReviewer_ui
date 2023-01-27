@@ -1,5 +1,4 @@
 import { registerUserService, listUsersService, selectUserService, updateUserService } from "../services";
-import { useDispatch } from 'react-redux';
 import {
     REGISTER_USER,
     REGISTER_USER_SELECTED,

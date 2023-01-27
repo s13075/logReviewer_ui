@@ -1,4 +1,3 @@
-import React from 'react';
 import{
     PERMISSIONS_REQUEST_FETCHED,
     PERMISSIONS_REQUEST_PENDING,

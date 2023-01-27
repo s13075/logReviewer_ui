@@ -3,9 +3,6 @@ import { postReconciliationRequestedService, postReconciliationJustifiedService}
 import { createSelector } from 'reselect';
 import {ALERT_UNMATCHED_ISA} from '../../config/names_PL';
 import { readdPermisionsChangeToList, removePermisionsChangeFromList } from '../../module/permissionsChange/permissionsChangeAction';
-import { useDispatch } from 'react-redux';
-
-
 
 const initialState = {
     permissionRequest:null,
@@ -65,14 +62,12 @@ const reconciliationSlice = createSlice({
         },
         permissionChangeSelected(state, action){
             if(!state.permissionChanges.some((change) => change.id === action.payload.id)){
-                
 
                 if(!state.permissionChanges.some((change) => 
                 change.informationSecurityAdministratorEmploeeId === action.payload.informationSecurityAdministratorEmploeeId) &&
                 state.permissionChanges.length !== 0){
                     alert(ALERT_UNMATCHED_ISA);
                 }else{
-                    removePermisionsChangeFromList(action.payload);
                     state.permissionChanges.push(action.payload);
                 }              
             }

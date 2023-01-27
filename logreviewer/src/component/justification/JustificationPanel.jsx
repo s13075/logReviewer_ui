@@ -7,14 +7,12 @@ import {
     PENDING_REVIEW,
     COMPLETE,
     SELECT_NEW_STATUS,
-    UNKNOWN,
     PROVIDE_JUSTIFICATION
 } from '../../config/names_PL';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-mui';
-import { Select, MenuItem, FormLabel, Button, Box } from '@mui/material';
+import { Select, MenuItem, Button, Box } from '@mui/material';
 import { justificationValidationSchema } from '../../config/validation';
-import * as yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserObjectSelector } from '../../module/user/userSelector';
 import { getSelectedJustification, putJustification, justificationDeselected } from '../../module/justification/justificationSlice';
@@ -40,7 +38,7 @@ function JustificationPanel() {
         }
         if (roles.some(role => role.roleName === 'REVIEWER') || roles.some(role => role.roleName === 'REVIEWER_MANAGER')) {
             statuses.push('PENDING_ADMIN');
-            if (currentStatus != 'PENDING_ADMIN' || roles.some(role => role.roleName === 'REVIEWER_MANAGER')) {
+            if (currentStatus !== 'PENDING_ADMIN' || roles.some(role => role.roleName === 'REVIEWER_MANAGER')) {
                 statuses.push('COMPLETE');
             }
         }

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     ENTER_YOUR_PASSWORD,
     PASSWORD_IS_REQUIRED,

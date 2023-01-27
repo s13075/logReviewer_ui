@@ -7,7 +7,6 @@ import permissionsRequestReducer from './permissionsRequest/permissionsRequestRe
 import reconciliationReducer from './reconciliation/reconciliationSlice';
 import justificationReducer from './justification/justificationSlice';
 
-
 const appState = configureStore({
   reducer: {
     reviewedApplicationReducer,

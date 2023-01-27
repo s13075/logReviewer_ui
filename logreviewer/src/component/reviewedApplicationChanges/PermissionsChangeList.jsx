@@ -1,11 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton } from '@mui/material';
-import {
-  permissionsChangeListSelector,
-  permissionsChangeListPromiseSelector
-} from '../../module/permissionsChange/permissionsChangeSelector';
-import { getPermissionsChangeListAction } from '../../module/permissionsChange/permissionsChangeAction';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   ADDITIONAL_DETAILS,
   EVENT_DATE,
@@ -14,16 +8,13 @@ import {
   APPLICATION_NAME,
   APPLICATION_INVENTORY_NO,
   APPLICATION_ROLE_NAME,
-  EVENT_ID,
-  PERMISSION_CHANGES
+  EVENT_ID
 } from '../../config/names_PL'
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid, plPL } from '@mui/x-data-grid';
-import { permissionChangeSelected } from '../../module/reconciliation/reconciliationSlice';
 import { dateFormater } from '../justification/renderCelllExpand';
 
 const PermissionsChangeList = ({ permissionsChangeList, listTitle, handleRowClick }) => {
-  const dispatch = useDispatch();
   const rows = permissionsChangeList;
   const columns = [
     { field: 'id', headerName: EVENT_ID, width: 300 },

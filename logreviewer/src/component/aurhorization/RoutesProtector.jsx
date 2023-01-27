@@ -2,19 +2,14 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { logoutAction } from '../../module/user/userAction';
-import { getUserTokenSelector, getUserRolesSelector } from '../../module/user/userSelector';
-import { useSelector } from 'react-redux';
+
 import axios from 'axios';
 
 
-const RoutesProtector = ({ children }) => {
+const RoutesProtector = ({ children , userRoles, token}) => {
     const redirectPath = '/login'
-    const token = useSelector(getUserTokenSelector);
-    const userRoles = useSelector(getUserRolesSelector);
-  
     axios.interceptors.request.use(
       config => {
-        //można zapisac token w localstorage
         //const token = window.localStorage.getItem('logreviewer-token');
         if (token != null) {
           config.headers.Authorization = token;

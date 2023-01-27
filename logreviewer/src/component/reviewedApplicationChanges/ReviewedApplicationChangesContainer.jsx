@@ -32,7 +32,6 @@ const ReviewedApplicationChangesContainer = () => {
   const permissionsRequestList = useSelector(permissionsRequestListSelector);
   const permissionsRequestListPromise = useSelector(permissionsRequestListPromiseSelector);
   const _hasSelectedPermissionRequest = useSelector(hasSelectedPermissionRequest); 
-  const _selectedPermissionChanges = useSelector(selectedPermissionChanges);
   const application = useSelector(getSelectedApplicationSelector);
   const isReconcile = useSelector(isReconcileSelector);
 
@@ -48,8 +47,7 @@ const ReviewedApplicationChangesContainer = () => {
   useEffect(() => {
     dispatch(getPermissionsChangeListAction(application.id));
   }, [dispatch]);
-  console.log(isReconcile);
-
+  
   return (
     <>
       <Typography variant='h5'>{REVIEW_CHANGES_FOR}{application.name}</Typography>

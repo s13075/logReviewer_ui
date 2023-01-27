@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Typography,
     Box,
     Paper,
     Avatar,
@@ -32,7 +31,7 @@ import {
 } from '../../config/constants';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { registerUser, unSelectUser, lockForUserRegister, lockForUserEdit, unlockForUserRegister, unlockForUserEdit, updateUserRoles, updateUser, getUserList } from '../../module/manegedUser/managedUserAction';
+import { registerUser, unSelectUser, lockForUserRegister, lockForUserEdit, unlockForUserRegister, unlockForUserEdit, updateUser, getUserList } from '../../module/manegedUser/managedUserAction';
 import {
     getManagedUserRegisterPromiseSelector,
     getManagedUserSelector,
@@ -54,7 +53,6 @@ const UserSelectedItem = () => {
         ['REVIEWER_MANAGER', ROLE_REVIEWER_MANAGER],
       ];
 
-    const managedUserPromise = useSelector(getManagedUserPromiseSelector);
     const managedUser = useSelector(getManagedUserSelector);
     const managedUserEditPromise = useSelector(getManagedUserEditPromiseSelector);
     const managedUserRegisterPromise = useSelector(getManagedUserRegisterPromiseSelector);

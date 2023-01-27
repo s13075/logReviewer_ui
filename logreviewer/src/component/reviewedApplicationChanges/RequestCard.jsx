@@ -1,9 +1,7 @@
 import React from 'react';
-import { Card, Typography, Grid, Paper, Box } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { Card, Typography, Grid, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import {
-  ADDITIONAL_DETAILS,
-  EVENT_DATE,
   SUBJECT_EMPLOYEE_ID,
   ISA_EMPLOYEE_ID,
   APPLICATION_NAME,
@@ -15,7 +13,7 @@ import {
   REQUEST_STATUS,
   REQUEST
 } from '../../config/names_PL'
-import { selectedPermissionRequest, hasSelectedPermissionRequest, permissionRequestDeselected } from '../../module/reconciliation/reconciliationSlice';
+import { selectedPermissionRequest, hasSelectedPermissionRequest } from '../../module/reconciliation/reconciliationSlice';
 
 const RequestCard = () => {
   const _hasSelectedPermissionRequest = useSelector(hasSelectedPermissionRequest);

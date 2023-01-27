@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Alert, Button, Paper } from '@mui/material';
+import { Box, Alert, Button } from '@mui/material';
 import {
     SELECTED_ITEMS,
     NO_REQUEST_SELECTED,
@@ -7,7 +7,6 @@ import {
     CHANGES,
     COMMENT,
     CANCEL,
-    PROVIDE_JUSTIFICATION,
     SEND,
     DESCRIBE_DOUBTS
 } from '../../config/names_PL';

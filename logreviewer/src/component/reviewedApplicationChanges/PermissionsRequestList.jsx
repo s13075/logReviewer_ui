@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton } from '@mui/material';
 import {
-  ADDITIONAL_DETAILS,
   EVENT_DATE,
   SUBJECT_EMPLOYEE_ID,
   ISA_EMPLOYEE_ID,
@@ -15,7 +13,7 @@ import {
   REQUEST_STATUS,
   PERMISSION_REQUESTS
 } from '../../config/names_PL'
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { DataGrid, plPL } from '@mui/x-data-grid';
 import { hasSelectedPermissionRequest, permissionRequestSelected } from '../../module/reconciliation/reconciliationSlice';
 import { dateFormater } from '../justification/renderCelllExpand';

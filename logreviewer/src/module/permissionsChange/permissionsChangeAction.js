@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import{
     PERMISSIONS_CHANGE_FETCHED,
     PERMISSIONS_CHANGE_PENDING,
@@ -25,7 +24,6 @@ export const getPermissionsChangeListAction = (applicationId) => async (dispatch
 }
 };
 export const removePermisionsChangeFromList = (permisionsChange) => async (dispatch) =>{
-
     dispatch({
         type: PERMISSIONS_CHANGE_REMOVE,
         payload: permisionsChange,
